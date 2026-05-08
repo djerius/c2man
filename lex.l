@@ -194,8 +194,21 @@ QUOTED		({STRING}|\'(\\\'|[^'\n])*\'|\\.)
 <INITIAL>__restrict	return T_RESTRICT;
 <INITIAL>__builtin_va_list		return T_BUILTIN_VA_LIST;
 <INITIAL>__extension__	;
+<INITIAL>__asm__	{
+			    embedded = 0;
+			    BEGIN EMBEDDED;
+			}
+<INITIAL>__asm	{
+			    embedded = 0;
+			    BEGIN EMBEDDED;
+			}
+<INITIAL>asm	{
+			    embedded = 0;
+			    BEGIN EMBEDDED;
+			}
 
 <INITIAL>__attribute__	{
+			    embedded = 0;
 			    BEGIN EMBEDDED;
 			}
 <EMBEDDED>"("		++embedded;
