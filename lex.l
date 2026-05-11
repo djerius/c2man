@@ -189,6 +189,10 @@ QUOTED		({STRING}|\'(\\\'|[^'\n])*\'|\\.)
 <INITIAL>interrupt	return T_INTERRUPT;
 <INITIAL>near		return T_NEAR;
 <INITIAL>pascal		return T_PASCAL;
+<INITIAL>restrict	return T_RESTRICT;
+<INITIAL>__restrict__	return T_RESTRICT;
+<INITIAL>__restrict	return T_RESTRICT;
+<INITIAL>__builtin_va_list		return T_BUILTIN_VA_LIST;
 <INITIAL>__extension__	;
 
 <INITIAL>__attribute__	{

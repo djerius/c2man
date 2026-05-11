@@ -22,6 +22,10 @@
 /* These keywords included for compatibility with MSDOS C compilers. */
 %token T_CDECL T_FAR T_HUGE T_INTERRUPT T_NEAR T_PASCAL
 
+/* These keywords included for compatibility with gcc. */
+%token T_RESTRICT
+%token T_BUILTIN_VA_LIST
+
 /* paired braces and everything between them: { ... } */
 %token T_BRACES
 
@@ -368,6 +372,10 @@ type_specifier
 	{
 	    new_decl_spec(&$$, "void", DS_NONE);
 	}
+	| T_BUILTIN_VA_LIST
+	{
+	    new_decl_spec(&$$, "__builtin_va_list", DS_NONE);
+	}
 	| struct_or_union_specifier
 	| enum_specifier
 	| T_TYPEDEF_NAME
@@ -412,6 +420,10 @@ type_qualifier
 	| T_PASCAL
 	{
 	    new_decl_spec(&$$, "pascal", DS_NONE);
+	}
+	| T_RESTRICT
+	{
+	    new_decl_spec(&$$, "__restrict", DS_NONE);
 	}
 	;
 
