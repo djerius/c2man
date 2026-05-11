@@ -1,13 +1,15 @@
+See README.stoney for the original README.
+
 This is a revised version of the original c2man code by Graham Stoney.
 
 The following changes have been made:
 
 * Configuration is now done via GNU autotools
-* Amiga, VMS, and PC support has been removed
-* The code now compiles against C89
-
-
-
-
-See README.stoney for the original README.
+* Amiga, VMS, PC, NEXT, and Apollo support has been removed
+* The code has been ansified.
+* Some bugs have been fixed
+* The parser recognizes some GCC'isms
+* Some code has been incorporated from Debian Patches; see ChangeLog
+* No longer relevent sections of the FAQ have been removed; the original is in FAQ.stoney
+* ChangeLog now provides changes since 2.0.41; see CHANGES & ChangeLog.stoney for older changes
 

@@ -27,7 +27,8 @@ eg_DATA = \
 	eg/underscore.h eg/variable.c
 
 EXTRA_DIST = \
-	CHANGES C++autodoc FAQ FAQ.orig README README.orig catalog c2man.man \
+	CHANGES C++autodoc FAQ FAQ.stoney README README.stoney \
+	ChangeLog ChangeLog.stoney catalog c2man.man \
 	ctype_ex.h example.h fixexamp.in flatten.sed.in \
 	grammar.y lex.l \
 	$(eg_DATA)
