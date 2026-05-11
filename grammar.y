@@ -25,6 +25,8 @@
 /* These keywords included for compatibility with gcc. */
 %token T_RESTRICT
 %token T_BUILTIN_VA_LIST
+%token T_EXTENSION_TYPE                                                                                                                   
+%type <text> T_EXTENSION_TYPE                                                                                                             
 
 /* paired braces and everything between them: { ... } */
 %token T_BRACES
@@ -386,6 +388,10 @@ type_specifier
 		s->valtype == SYMVAL_ENUM ? s->value.enum_list
 					  : (EnumeratorList *)NULL);
 	}
+        | T_EXTENSION_TYPE
+        {
+            new_decl_spec(&$$, $1, DS_NONE);
+        }
 	;
 
 type_qualifier

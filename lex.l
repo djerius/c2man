@@ -193,6 +193,20 @@ QUOTED		({STRING}|\'(\\\'|[^'\n])*\'|\\.)
 <INITIAL>__restrict__	return T_RESTRICT;
 <INITIAL>__restrict	return T_RESTRICT;
 <INITIAL>__builtin_va_list		return T_BUILTIN_VA_LIST;
+
+   <INITIAL>_Float16 |
+   <INITIAL>_Float32 |
+   <INITIAL>_Float64 |
+   <INITIAL>_Float128 |
+   <INITIAL>_Float32x |
+   <INITIAL>_Float64x |
+   <INITIAL>_Float128x |
+   <INITIAL>__float128 |
+   <INITIAL>__int128 {
+       yylval.text = strduplicate(yytext);
+       return T_EXTENSION_TYPE;
+   }
+
 <INITIAL>__extension__	;
 <INITIAL>__asm__	{
 			    embedded = 0;
