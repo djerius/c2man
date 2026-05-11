@@ -15,20 +15,14 @@
 /* Return TRUE if the given identifier is really a typedef name.
  * Search the symbol table for the identifier.
  */
-boolean
-is_typedef_name (name)
-char *name;
+boolean is_typedef_name(char *name)
 {
     return (boolean)(find_symbol(typedef_names, name) != NULL);
 }
 
 /* Initialize a new declaration specifier part.
  */
-void
-new_decl_spec (decl_spec, text, flags)
-DeclSpec *decl_spec;
-char *text;
-int flags;
+void new_decl_spec(DeclSpec *decl_spec, char *text, int flags)
 {
     decl_spec->text = text ? strduplicate(text) : NULL;
     decl_spec->flags = flags;
@@ -37,21 +31,14 @@ int flags;
 
 /* Free storage used by a declaration specifier part.
  */
-void
-free_decl_spec (decl_spec)
-DeclSpec *decl_spec;
+void free_decl_spec(DeclSpec *decl_spec)
 {
     safe_free(decl_spec->text);	/* could be an ellipsis you know */
 }
 
 /* Initialize a new declaration specifier part, including an enum part.
  */
-void
-new_enum_decl_spec (decl_spec, text, flags, enum_list)
-DeclSpec *decl_spec;
-char *text;
-int flags;
-EnumeratorList *enum_list;
+void new_enum_decl_spec(DeclSpec *decl_spec, char *text, int flags, EnumeratorList *enum_list)
 {
     decl_spec->text = text;
     decl_spec->flags = flags;
@@ -59,11 +46,7 @@ EnumeratorList *enum_list;
 }
 
 /* Initialize a new declaration specifier part, but don't strdup the text. */
-void
-dyn_decl_spec (decl_spec, text, flags)
-DeclSpec *decl_spec;
-char *text;
-unsigned int flags;
+void dyn_decl_spec(DeclSpec *decl_spec, char *text, unsigned int flags)
 {
     decl_spec->text = text;
     decl_spec->flags = flags;
@@ -72,9 +55,7 @@ unsigned int flags;
 
 /* Append two declaration specifier parts together.
  */
-void
-join_decl_specs (result, a, b)
-DeclSpec *result, *a, *b;
+void join_decl_specs(DeclSpec *result, DeclSpec *a, DeclSpec *b)
 {
     if (a->text)
     {
@@ -97,9 +78,7 @@ DeclSpec *result, *a, *b;
 }
 
 /* Allocate and initialize a declarator. */
-Declarator *
-new_declarator (text, name)
-char *name, *text;
+Declarator * new_declarator(char *text, char *name)
 {
     Declarator *d;
 
@@ -117,9 +96,7 @@ char *name, *text;
 
 /* Free storage used by a declarator.
  */
-void
-free_declarator (d)
-Declarator *d;
+void free_declarator(Declarator *d)
 {
 #ifdef DEBUG
     fprintf(stderr,"free_declarator: decl = %lx, name = %s, text = %s\n",
@@ -136,10 +113,7 @@ Declarator *d;
 }
 
 /* add a comment to the last declarator in the list */
-int
-comment_last_decl(list, comment)
-DeclaratorList *list;
-char *comment;
+int comment_last_decl(DeclaratorList * list, char * comment)
 {
     if (list->last->comment)
     {
@@ -154,10 +128,7 @@ char *comment;
 
 /* Initialize a declarator list and add the given declarator to it.
  */
-void
-new_decl_list (decl_list, declarator)
-DeclaratorList *decl_list;
-Declarator *declarator;
+void new_decl_list(DeclaratorList *decl_list, Declarator *declarator)
 {
     decl_list->first = decl_list->last = declarator;
     declarator->next = NULL;
@@ -165,9 +136,7 @@ Declarator *declarator;
 
 /* Free storage used by the declarators in the declarator list.
  */
-void
-free_decl_list (decl_list)
-DeclaratorList *decl_list;
+void free_decl_list(DeclaratorList *decl_list)
 {
     Declarator *d, *next;
 #ifdef DEBUG
@@ -184,10 +153,7 @@ DeclaratorList *decl_list;
 
 /* Add the declarator to the declarator list.
  */
-void
-add_decl_list (to, from, declarator)
-DeclaratorList *to, *from;
-Declarator *declarator;
+void add_decl_list(DeclaratorList *to, DeclaratorList *from, Declarator *declarator)
 {
     to->first = from->first;
     from->last->next = declarator;
@@ -197,13 +163,7 @@ Declarator *declarator;
 
 /* Initialize the parameter structure.
  */
-void
-new_parameter (param, decl_spec, declarator, comment_before, comment_after)
-Parameter *param;		/* pointer to structure to be initialized */
-DeclSpec *decl_spec;		/* declaration specifier structure */
-Declarator *declarator;		/* declarator structure */
-char *comment_before;		/* comment before the param */
-char *comment_after;		/* comment after the param */
+void new_parameter(Parameter *param, DeclSpec *decl_spec, Declarator *declarator, char *comment_before, char *comment_after)
 {
 
     if (decl_spec == NULL) {
@@ -231,19 +191,14 @@ char *comment_after;		/* comment after the param */
 
 /* Free the storage used by the parameter.
  */
-void
-free_parameter (param)
-Parameter *param;
+void free_parameter(Parameter *param)
 {
     free_decl_spec(&(param->decl_spec));
     free_declarator(param->declarator);
 }
 
 /* add a comment to the last parameter in the list */
-int
-comment_last_parameter(list, comment)
-ParameterList *list;
-char *comment;
+int comment_last_parameter(ParameterList * list, char * comment)
 {
     if (list->last == NULL)
     {
@@ -265,10 +220,7 @@ char *comment;
 
 /* Initialize a list of function parameters.
  */
-void
-new_param_list (param_list, param)
-ParameterList *param_list;
-Parameter *param;
+void new_param_list(ParameterList *param_list, Parameter *param)
 {
     Parameter *p;
 
@@ -281,9 +233,7 @@ Parameter *param;
 
 /* Free storage used by the elements in the function parameter list.
  */
-void
-free_param_list (param_list)
-ParameterList *param_list;
+void free_param_list(ParameterList *param_list)
 {
     Parameter *p, *next;
 
@@ -298,10 +248,7 @@ ParameterList *param_list;
 
 /* Add the function parameter declaration to the list.
  */
-void
-add_param_list (to, from, param)
-ParameterList *to, *from;
-Parameter *param;
+void add_param_list(ParameterList *to, ParameterList *from, Parameter *param)
 {
     Parameter *p;
 
@@ -316,9 +263,7 @@ Parameter *param;
 
 /* Initialize an empty list of function parameter names.
  */
-void
-new_ident_list (param_list)
-ParameterList *param_list;
+void new_ident_list(ParameterList *param_list)
 {
     param_list->first = param_list->last = NULL;
 }
@@ -326,10 +271,7 @@ ParameterList *param_list;
 /* Add an item to the list of function parameter declarations but set only
  * the parameter name field and the comments.
  */
-void
-add_ident_list (to, from, ident)
-ParameterList *to, *from;
-Identifier *ident;
+void add_ident_list(ParameterList *to, ParameterList *from, Identifier *ident)
 {
     Parameter *p;
     Declarator *declarator;
@@ -352,10 +294,7 @@ Identifier *ident;
 /* Search the list of parameters for a matching parameter name.
  * Return a pointer to the matching parameter or NULL if not found.
  */
-static Parameter *
-search_parameter_list (params, name)
-ParameterList *params;
-char *name;
+static Parameter * search_parameter_list(ParameterList *params, char *name)
 {
     Parameter *p;
 
@@ -374,13 +313,7 @@ char *name;
  * "char", "unsigned char", "short", or "unsigned short" get promoted to
  * "int".  Parameters of type "float" are promoted to "double".
  */
-void
-set_param_types (params, decl_spec, declarators, comment, eolcomment)
-ParameterList *params;
-DeclSpec *decl_spec;
-DeclaratorList *declarators;
-char *comment;
-char *eolcomment;
+void set_param_types(ParameterList *params, DeclSpec *decl_spec, DeclaratorList *declarators, char *comment, char *eolcomment)
 {
     Declarator *d;
     Parameter *p;
@@ -442,21 +375,18 @@ char *eolcomment;
 
 /* Output a declaration specifier for an external declaration.
  */
-void
-output_decl_spec (decl_spec)
-DeclSpec *decl_spec;
+void output_decl_spec(DeclSpec *decl_spec)
 {
     output->text(decl_spec->text);
 }
 
 static void
-output_parameters _((Declarator *d, boolean format));
+output_parameters(Declarator *d, boolean format);
 
 /* does a function have any parameters?
  * This accounts for both fn() and fn(void)
  */
-boolean has_parameters(d)
-const Declarator *d;
+boolean has_parameters(const Declarator * d)
 {
     Parameter *first = d->head->params.first;
 
@@ -466,9 +396,7 @@ const Declarator *d;
 }
 
 /* output a declarator name, stripping leading underscores if necessary */
-void output_decl_text(text, keep_underscores)
-char *text;
-boolean keep_underscores;
+void output_decl_text(char * text, boolean keep_underscores)
 {
     if (!keep_underscores)
     {
@@ -482,10 +410,7 @@ boolean keep_underscores;
 
 /* Output a function declarator.
  */
-static void
-output_func_declarator (declarator, format)
-Declarator *declarator;
-boolean format;
+static void output_func_declarator(Declarator *declarator, boolean format)
 {
     char *s, *t, *decl_text;
 
@@ -542,10 +467,7 @@ boolean format;
 
 /* Output a declarator.
  */
-void
-output_declarator (d, format)
-Declarator *d;
-boolean format;
+void output_declarator(Declarator *d, boolean format)
 {
     if (d->func_stack) {
 	output_func_declarator(d, format);
@@ -556,9 +478,7 @@ boolean format;
 
 /* Output a function parameter.
  */
-void
-output_parameter (p)
-Parameter *p;
+void output_parameter(Parameter *p)
 {
     if (p->decl_spec.text)
 	output->text(p->decl_spec.text);
@@ -582,10 +502,7 @@ Parameter *p;
 
 /* Output the list of function parameters.
  */
-static void
-output_parameters (d, format)
-Declarator *d;
-boolean format;
+static void output_parameters(Declarator *d, boolean format)
 {
     if (has_parameters(d)) {
         Parameter *p = d->params.first;
@@ -605,12 +522,7 @@ boolean format;
 }
 
 /* remember variable and function declarations. */
-int
-remember_declarations (comment, decl_spec, decl_list, eolcomment)
-char *comment;			/* comment before */
-DeclSpec *decl_spec;		/* declaration specifier */
-DeclaratorList *decl_list;	/* list of declared variables */
-char *eolcomment;		/* eol comment after */
+int remember_declarations(char *comment, DeclSpec *decl_spec, DeclaratorList *decl_list, char *eolcomment)
 {
     Declarator *d, *next;
     int ret = 1;
@@ -684,28 +596,24 @@ char *eolcomment;		/* eol comment after */
     return ret;
 }
 
-void parameter_error(param)
-Parameter *param;
+void parameter_error(Parameter * param)
 {
     yyerror("parameter '%s' has multiple comments", param->declarator->name);
 }
 
-void declarator_error(decl)
-Declarator *decl;
+void declarator_error(Declarator * decl)
 {
     yyerror("declarator '%s' has multiple comments", decl->name);
 }
 
 /* is a declarator for a function? (as opposed to a variable) */
-boolean is_function_declarator(decl)
-const Declarator *decl;
+boolean is_function_declarator(const Declarator * decl)
 {
     return decl->type == DECL_FUNCTION || decl->type == DECL_FUNCDEF;
 }
 
 /* is a comment a start of a numbered list item */
-boolean is_numbered(text)
-const char *text;
+boolean is_numbered(const char * text)
 {
   char *next = NULL;
 

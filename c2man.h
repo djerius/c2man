@@ -5,7 +5,6 @@
 #define _C2MAN_H
 
 #include "config.h"
-#include "c2man-proto.h"
 #include "symbol.h"
 
 #ifdef HAVE_SYS_TYPES_H
@@ -223,8 +222,8 @@ extern time_t basetime;
 extern boolean inbasefile;
 extern boolean header_file;
 extern SymbolTable *typedef_names;
-extern void output_error();
-extern void parse_file _((const char *start_file));
+extern void output_error(void);
+extern void parse_file(const char *start_file);
 extern int errors;
 extern const char *manual_section;
 extern boolean use_input_name;
@@ -238,24 +237,24 @@ extern struct Output_Object_Info output_object[_OBJECT_NUM];
 
 /* a malloc that handles errors, and a free that handles NULL */
 #ifndef DBMALLOC
-void *safe_malloc _((size_t size));
+void *safe_malloc(size_t size);
 #else
 /* use macro so dbmalloc tells us where safe_malloc is called from */
 #define safe_malloc(s)	malloc(s)
 #endif
 #define safe_free(p)	do { if (p) free(p); p = NULL; } while(0)
 
-void outmem();
-void print_includes _((FILE *f));/* write #include lines */
+void outmem(void);
+void print_includes(FILE *f);
 
-void yyerror _V((const char *fmt, ...));
+void yyerror(const char *fmt, ...);
 
-char *strduplicate _((const char *s));
-int strncmpi _((const char *s1, const char *s2, size_t n));
-char *strtoupper _((char *s));
+char *strduplicate(const char *s);
+int strncmpi(const char *s1, const char *s2, size_t n);
+char *strtoupper(char *s);
 
-void my_perror _((const char *action, const char *filename));
+void my_perror(const char *action, const char *filename);
 
-char *alloc_string _((const char *start, const char *end));
+char *alloc_string(const char *start, const char *end);
 
 #endif

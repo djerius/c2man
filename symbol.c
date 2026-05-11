@@ -8,8 +8,7 @@
 /* Create a symbol table.
  * Return a pointer to the symbol table or NULL if an error occurs.
  */
-SymbolTable *
-create_symbol_table ()
+SymbolTable * create_symbol_table(void)
 {
     SymbolTable *symtab;
     int i;
@@ -25,9 +24,7 @@ create_symbol_table ()
 
 /* Free the memory allocated to the symbol table.
  */
-void
-destroy_symbol_table (symtab)
-SymbolTable *symtab;
+void destroy_symbol_table(SymbolTable *symtab)
 {
     int i;
     Symbol *sym, *next;
@@ -47,9 +44,7 @@ SymbolTable *symtab;
 
 /* This is a simple hash function mapping a symbol name to a hash bucket. */
 
-static unsigned int
-hash (name)
-char *name;
+static unsigned int hash(char *name)
 {
     char *s;
     unsigned int h;
@@ -65,10 +60,7 @@ char *name;
 /* Search the list of symbols <list> for the symbol <name>.
  * Return a pointer to the symbol or NULL if not found.
  */
-static Symbol *
-search_symbol_list (list, name)
-Symbol *list;
-char *name;
+static Symbol * search_symbol_list(Symbol *list, char *name)
 {
     Symbol *sym;
 
@@ -83,10 +75,7 @@ char *name;
 /* Look for symbol <name> in symbol table <symtab>.
  * Return a pointer to the symbol or NULL if not found.
  */
-Symbol *
-find_symbol (symtab, name)
-SymbolTable *symtab;
-char *name;
+Symbol * find_symbol(SymbolTable *symtab, char *name)
 {
     return search_symbol_list(symtab->bucket[hash(name)], name);
 }
@@ -96,11 +85,7 @@ char *name;
  * then add the symbol to the symbol table.
  * Return a pointer to the symbol or NULL on an error.
  */
-Symbol *
-new_symbol (symtab, name, flags)
-SymbolTable *symtab;	/* symbol table */
-char *name;		/* symbol name */
-int flags;		/* symbol attributes */
+Symbol * new_symbol(SymbolTable *symtab, char *name, int flags)
 {
     Symbol *sym;
     int i;

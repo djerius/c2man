@@ -6,7 +6,7 @@
 
 #include <stdarg.h>
 
-extern void outmem();
+extern void outmem(void);
 
 char *strconcat(const char *first, ...)
 {

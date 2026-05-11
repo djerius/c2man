@@ -4,6 +4,7 @@
 #include "c2man.h"
 #include "manpage.h"
 #include "output.h"
+#include "semantic.h"
 #include <ctype.h>
 
 static char *heading_not_in_contents[] =
@@ -30,8 +31,7 @@ static const char *title = "INTERNAL ERROR, BOGUS TITLE DUDE!";
 /* do section titles get capitalized? */
 static int capitalize_sections = 0;
 
-void texinfo_char(c)
-const int c;
+void texinfo_char(const int c)
 {
     int i;
 
@@ -47,15 +47,13 @@ const int c;
     }
 }
 
-void texinfo_text(text)
-const char *text;
+void texinfo_text(const char * text)
 {
     while (*text)
 	texinfo_char(*text++);
 }
 
-void put_section(text)
-const char *text;
+void put_section(const char * text)
 {
 
    if (capitalize_sections)
@@ -72,15 +70,9 @@ const char *text;
      texinfo_text(text);
 }
 
-void texinfo_comment() { put_string("@c "); }
+void texinfo_comment(void) { put_string("@c "); }
 
-void texinfo_header(firstpage, input_files, grouped, name, terse, section)
-ManualPage *firstpage;
-int input_files;
-boolean grouped;
-const char *name;
-const char *terse;
-const char *section;
+void texinfo_header(ManualPage * firstpage, int input_files, boolean grouped, const char * name, const char * terse, const char * section)
 {
     if (! make_embeddable)
     {
@@ -109,10 +101,9 @@ const char *section;
     title = name;
 }
 
-void texinfo_dash()	{ put_string("---"); }
+void texinfo_dash(void)	{ put_string("---"); }
 
-void texinfo_section(name)
-const char *name;
+void texinfo_section(const char * name)
 {
     put_string(heading_not_in_contents[level(top_level)]);
     put_section(name);
@@ -120,8 +111,7 @@ const char *name;
     put_string("@noindent\n");
 }
 
-void texinfo_section_in_contents(name)
-const char *name;
+void texinfo_section_in_contents(const char * name)
 {
     put_string(heading_in_contents[level(top_level)]);
     put_section(name);
@@ -129,8 +119,7 @@ const char *name;
     put_string("@noindent\n");
 }
 
-void texinfo_sub_section(name)
-const char *name;
+void texinfo_sub_section(const char * name)
 {
     put_string(heading_not_in_contents[level(top_level+1)]);
     put_section(name);
@@ -138,41 +127,36 @@ const char *name;
     put_string("@noindent\n");
 }
 
-void texinfo_break_line() { /* put_string("@*\n"); */ }
-void texinfo_blank_line() { put_string("@sp 1\n"); }
+void texinfo_break_line(void) { /* put_string("@*\n"); */ }
+void texinfo_blank_line(void) { put_string("@sp 1\n"); }
 
-void texinfo_code_start() { put_string("@example\n"); }
-void texinfo_code_end()	{ put_string("@end example\n"); }
+void texinfo_code_start(void) { put_string("@example\n"); }
+void texinfo_code_end(void)	{ put_string("@end example\n"); }
 
-void texinfo_code(text)
-const char *text;
+void texinfo_code(const char * text)
 {
     put_string("@code{");
     texinfo_text(text);
     put_string("}");
 }
 
-void texinfo_tag_list_start()	{ put_string("@quotation\n@table @code\n"); }
-void texinfo_tag_entry_start()	{ put_string("@item "); }
-void texinfo_tag_entry_end()	{ putchar('\n'); }
+void texinfo_tag_list_start(void)	{ put_string("@quotation\n@table @code\n"); }
+void texinfo_tag_entry_start(void)	{ put_string("@item "); }
+void texinfo_tag_entry_end(void)	{ putchar('\n'); }
 
-void texinfo_tag_entry_end_extra(text)
-const char *text;
+void texinfo_tag_entry_end_extra(const char * text)
 {
     putchar('(');
     texinfo_text(text);
     putchar(')');
     texinfo_tag_entry_end();
 }
-void texinfo_tag_list_end()	{ put_string("@end table\n@end quotation\n"); }
+void texinfo_tag_list_end(void)	{ put_string("@end table\n@end quotation\n"); }
 	
-void texinfo_table_start(longestag)
-const char *longestag;
+void texinfo_table_start(const char *longestag)
 { put_string("@quotation\n@table @code\n"); }
 
-void texinfo_table_entry(name, description)
-const char *name;
-const char *description;
+void texinfo_table_entry(const char *name, const char *description)
 {
     put_string("@item ");
     texinfo_text(name);
@@ -183,30 +167,27 @@ const char *description;
 	putchar('\n');
 }
 
-void texinfo_table_end()	{ put_string("@end table\n@end quotation\n"); }
+void texinfo_table_end(void)	{ put_string("@end table\n@end quotation\n"); }
 
-void texinfo_list_start()	{ }
-void texinfo_list_entry(text)
-const char *text;
+void texinfo_list_start(void)	{ }
+void texinfo_list_entry(const char * text)
 {
     texinfo_code(text);
 }
-void texinfo_list_separator() { put_string(",\n"); }
-void texinfo_list_end()	{ putchar('\n'); }
+void texinfo_list_separator(void) { put_string(",\n"); }
+void texinfo_list_end(void)	{ putchar('\n'); }
 
-void texinfo_include(filename)
-const char *filename;
+void texinfo_include(const char * filename)
 {
 	put_string("@include ");
 	texinfo_text(filename);
 	put_string("\n");
 }
 
-void texinfo_file_end() { put_string("@bye\n"); }
+void texinfo_file_end(void) { put_string("@bye\n"); }
 
-static first_name = 1;
-void texinfo_name(name)
-const char *name;
+static int first_name = 1;
+void texinfo_name(const char * name)
 {
     if (name)
     {
@@ -231,7 +212,7 @@ const char *name;
     }
 }
 
-void texinfo_terse_sep()
+void texinfo_terse_sep(void)
 {
     if (!title_name || group_together)
     {
@@ -241,8 +222,7 @@ void texinfo_terse_sep()
     }
 }
 
-void texinfo_reference(text)
-const char *text;
+void texinfo_reference(const char * text)
 {
     texinfo_text(text);
     texinfo_char('(');
@@ -251,8 +231,7 @@ const char *text;
 }
 
 /* ideally, this should be made aware of embedded texinfo commands */
-void texinfo_description(text)
-const char *text;
+void texinfo_description(const char * text)
 {
     enum { TEXT, PERIOD, CAPITALISE } state = CAPITALISE;
     boolean new_line = TRUE;
@@ -286,9 +265,7 @@ const char *text;
 }
 
 /* ideally, this should be made aware of embedded texinfo commands */
-void
-texinfo_returns(comment)
-const char *comment;
+void texinfo_returns(const char * comment)
 {
     enum { TEXT, PERIOD, CAPITALISE } state = CAPITALISE;
     char lastchar = '\n';
@@ -395,8 +372,7 @@ const char *comment;
 }
 
 
-int texinfo_parse_option(option)
-const char *option;
+int texinfo_parse_option(const char * option)
 {
     if	    (option[0] == 't')
 	title_name = 1;
@@ -414,7 +390,7 @@ const char *option;
     return 0;
 }
 
-void texinfo_print_options()
+void texinfo_print_options(void)
 {
     fputs("\ttexinfo options:\n", stderr);
     fputs("\tt\tuse manpage title as NAME title\n", stderr);

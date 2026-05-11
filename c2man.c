@@ -2,10 +2,10 @@
  * C Manual page generator.
  * Reads C source code and outputs manual pages.
  */
+#include "c2man.h"
+
 #include <ctype.h>
 #include <errno.h>
-
-#include "c2man.h"
 #include "enum.h"
 #include "strconcat.h"
 #include "strappend.h"
@@ -24,7 +24,7 @@
 #include <signal.h>
 
 /* getopt declarations */
-extern int getopt();
+extern int getopt(int argc, char *const argv[], const char *optstring);
 extern char *optarg;
 extern int optind;
 
@@ -171,8 +171,7 @@ static boolean cppignhdrs
 ;
 
 /* nifty little function for handling I/O errors */
-void my_perror(action, filename)
-const char *action, *filename;
+void my_perror(const char *action, const char *filename)
 {
     int err = errno;
     fprintf(stderr,"%s: %s ", progname, action);
@@ -181,8 +180,7 @@ const char *action, *filename;
 }
 
 /* write the #include lines as specified by the user */
-void print_includes(f)
-FILE *f;
+void print_includes(FILE * f)
 {
     IncludeFile *incfile;
     
@@ -199,15 +197,14 @@ FILE *f;
     }
 }
 
-void outmem()
+void outmem(void)
 {
     fprintf(stderr,"%s: Out of memory!\n", progname);
     exit(1);
 }
 
 #ifndef DBMALLOC
-void *safe_malloc(size)
-size_t size;
+void * safe_malloc(size_t size)
 {
     void *mem;
 
@@ -222,9 +219,7 @@ size_t size;
  * characters.  Return a pointer to malloc'ed memory containing the result.
  * This function knows only a few escape sequences.
  */
-static char *
-escape_string (src)
-char *src;
+static char * escape_string(char *src)
 {
     char *result, *get, *put;
 
@@ -256,8 +251,7 @@ char *src;
 
 /* Output usage message and exit.
  */
-static void
-usage ()
+static void usage(void)
 {
     int i;
 
@@ -343,11 +337,10 @@ usage ()
 /* name of the temporary file; kept here so we can blast it if hit with ctrl-C
  */
 static char temp_name[20];
-void (*old_interrupt_handler)_((int));
+void (*old_interrupt_handler)(int);
 
 /* ctrl-C signal handler for use when we have a temporary file */
-static void interrupt_handler(sig)
-int sig;
+static void interrupt_handler(int sig)
 {
     unlink(temp_name);
     exit(128 + sig);
@@ -358,12 +351,12 @@ int sig;
  * can't use mktemp, tmpnam or tmpfile.
  * returns an open stream & sets ret_name to the name.
  */
-FILE *open_temp_file()
+FILE * open_temp_file(void)
 {
     int fd;
     long n = getpid();
     FILE *tempf;
-    boolean remove_temp_file();
+    boolean remove_temp_file(void);
 
     /* keep generating new names until we hit one that does not exist */
     do
@@ -396,7 +389,7 @@ FILE *open_temp_file()
 /* remove the temporary file & restore ctrl-C handler.
  * returns FALSE in the event of failure.
  */
-boolean remove_temp_file()
+boolean remove_temp_file(void)
 {
     int ok = unlink(temp_name) == 0;    /* this should always succeed */
     signal(SIGINT, old_interrupt_handler);
@@ -408,9 +401,7 @@ boolean remove_temp_file()
  * to actually get the work done once any required temporary files have been
  * generated.
  */
-int process_file_directly(base_cpp_cmd, name)
-const char *base_cpp_cmd;
-const char *name;
+int process_file_directly(const char * base_cpp_cmd, const char * name)
 {
     char *full_cpp_cmd;
 
@@ -455,9 +446,7 @@ const char *name;
 }
 
 /* process a specified file */
-int process_file(base_cpp_cmd, name)
-const char *base_cpp_cmd;
-const char *name;
+int process_file(const char * base_cpp_cmd, const char * name)
 {
     char *period;
     struct stat statbuf;
@@ -525,8 +514,7 @@ const char *name;
 }
 
 /* process the thing on the standard input */
-int process_stdin(base_cpp_cmd)
-const char *base_cpp_cmd;
+int process_stdin(const char * base_cpp_cmd)
 {
     if (isatty(fileno(stdin)))
 	fprintf(stderr,"%s: reading standard input\n", progname);
@@ -592,10 +580,7 @@ const char *base_cpp_cmd;
     }
 }
 
-int
-main (argc, argv)
-int argc;
-char **argv;
+int main(int argc, char **argv)
 {
     int i, c, ok = 0;
     char *s, cbuf[2];

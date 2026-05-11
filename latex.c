@@ -8,8 +8,7 @@
 
 static boolean verbatim = FALSE;	/* skip quoting in verbatim section */
 
-void latex_char(c)
-const int c;
+void latex_char(const int c)
 {
     int i;
 
@@ -42,22 +41,15 @@ const int c;
     }
 }
 
-void latex_text(text)
-const char *text;
+void latex_text(const char * text)
 {
     while(*text)
 	latex_char(*text++);
 }
 
-void latex_comment() { put_string("% "); }
+void latex_comment(void) { put_string("% "); }
 
-void latex_header(firstpage, input_files, grouped, name, terse, section)
-ManualPage *firstpage;
-int input_files;
-boolean grouped;
-const char *name;
-const char *terse;
-const char *section;
+void latex_header(ManualPage * firstpage, int input_files, boolean grouped, const char * name, const char * terse, const char * section)
 {
     if (make_embeddable) return;
 
@@ -66,58 +58,51 @@ const char *section;
 	put_string("\\begin{document}\n");
 }
 
-void latex_dash()	{ put_string("---"); }
+void latex_dash(void)	{ put_string("---"); }
 
-void latex_section(name)
-const char *name;
+void latex_section(const char * name)
 {
     put_string("\\section*{");
     latex_text(name);
     put_string("}\n");
 }
 
-void latex_sub_section(name)
-const char *name;
+void latex_sub_section(const char * name)
 {
     put_string("\\subsection*{");
     latex_text(name);
     put_string("}\n");
 }
 
-void latex_break_line() { /* put_string("\\newline\n"); */ }
-void latex_blank_line() { put_string("\n"); }
+void latex_break_line(void) { /* put_string("\\newline\n"); */ }
+void latex_blank_line(void) { put_string("\n"); }
 
-void latex_code_start() { put_string("\\begin{verbatim}\n"); verbatim = TRUE; }
-void latex_code_end()	{ put_string("\\end{verbatim}\n"); verbatim = FALSE; }
+void latex_code_start(void) { put_string("\\begin{verbatim}\n"); verbatim = TRUE; }
+void latex_code_end(void)	{ put_string("\\end{verbatim}\n"); verbatim = FALSE; }
 
-void latex_code(text)
-const char *text;
+void latex_code(const char * text)
 {
     put_string("\\verb`");
     put_string(text);
     put_string("`");
 }
 
-void latex_tag_list_start()	{ put_string("\\begin{description}\n"); }
-void latex_tag_entry_start()	{ put_string("\\item["); }
-void latex_tag_entry_end()	{ put_string("]\\hfill\\newline\n"); }
-void latex_tag_entry_end_extra(text)
-const char *text;
+void latex_tag_list_start(void)	{ put_string("\\begin{description}\n"); }
+void latex_tag_entry_start(void)	{ put_string("\\item["); }
+void latex_tag_entry_end(void)	{ put_string("]\\hfill\\newline\n"); }
+void latex_tag_entry_end_extra(const char * text)
 {
     put_string("(");
     latex_text(text);
     put_string(")");
 	latex_tag_entry_end();
 }
-void latex_tag_list_end()	{ put_string("\\end{description}\n"); }
+void latex_tag_list_end(void)	{ put_string("\\end{description}\n"); }
 	
-void latex_table_start(longestag)
-const char *longestag;
+void latex_table_start(const char *longestag)
 { put_string("\\begin{description}\n"); }
 
-void latex_table_entry(name, description)
-const char *name;
-const char *description;
+void latex_table_entry(const char *name, const char *description)
 {
     put_string("\\item[");
     latex_text(name);
@@ -128,42 +113,38 @@ const char *description;
 	latex_char('\n');
 }
 
-void latex_table_end()	{ put_string("\\end{description}\n"); }
+void latex_table_end(void)	{ put_string("\\end{description}\n"); }
 
-void latex_list_entry(text)
-const char *text;
+void latex_list_entry(const char * text)
 {
     latex_text(text);
 }
-void latex_list_separator() { put_string(",\n"); }
-void latex_list_end()	{ latex_char('\n'); }
+void latex_list_separator(void) { put_string(",\n"); }
+void latex_list_end(void)	{ latex_char('\n'); }
 
-void latex_include(filename)
-const char *filename;
+void latex_include(const char * filename)
 {
 	put_string("\\include{");
 	latex_text(filename);
 	put_string("}\n");
 }
 
-void latex_file_end() { put_string("\\end{document}\n"); }
+void latex_file_end(void) { put_string("\\end{document}\n"); }
 
-void latex_name(name)
-const char *name;
+void latex_name(const char * name)
 {
     if (name) latex_text(name);
     else      latex_section("NAME");
 }
 
-void latex_terse_sep()
+void latex_terse_sep(void)
 {
     latex_char(' ');
     latex_dash();
     latex_char(' ');
 }
 
-void latex_reference(text)
-const char *text;
+void latex_reference(const char * text)
 {
     latex_text(text);
     latex_char('(');
@@ -172,8 +153,7 @@ const char *text;
 }
 
 /* ideally, this should be made aware of embedded latex commands */
-void latex_description(text)
-const char *text;
+void latex_description(const char * text)
 {
     enum { TEXT, PERIOD, CAPITALISE } state = CAPITALISE;
     boolean new_line = TRUE;
@@ -207,9 +187,7 @@ const char *text;
 }
 
 /* ideally, this should be made aware of embedded latex commands */
-void
-latex_returns(comment)
-const char *comment;
+void latex_returns(const char * comment)
 {
     enum { TEXT, PERIOD, CAPITALISE } state = CAPITALISE;
     char lastchar = '\n';

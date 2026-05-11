@@ -72,7 +72,7 @@
 
 #include <stdarg.h>
 
-int yylex();
+int yylex(void);
 
 #define YYMAXDEPTH 150
 
@@ -881,9 +881,7 @@ void yyerror(const char *format, ...)
     putc('\n',stderr);
 }
 
-void
-parse_file (start_file)
-const char *start_file;
+void parse_file(const char *start_file)
 {
     const char *s;
 #ifdef FLEX_SCANNER

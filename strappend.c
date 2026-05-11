@@ -3,7 +3,7 @@
 
 #include <stdarg.h>
 
-extern void outmem();
+extern void outmem(void);
 
 /*
  * append a list of strings to another, storing them in a malloc'ed region.

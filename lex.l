@@ -41,13 +41,13 @@ typedef struct {
 static int inc_depth = 0;			/* include nesting level */
 static IncludeStack inc_stack[MAX_INC_DEPTH];	/* stack of included files */
 
-static void update_line_num _((void));
-static void do_include _((char *filename, int sysinc));
-static void new_dynbuf();
-static void add_dynbuf _((int c));
-static char *return_dynbuf();
-static void get_cpp_directive();
-static boolean process_line_directive _((const char *new_file));
+static void update_line_num(void);
+static void do_include(char *filename, int sysinc);
+static void new_dynbuf(void);
+static void add_dynbuf(int c);
+static char *return_dynbuf(void);
+static void get_cpp_directive(void);
+static boolean process_line_directive(const char *new_file);
 
 /*
  * The initial comment processing is done primarily by the rather complex lex
@@ -57,10 +57,10 @@ static boolean process_line_directive _((const char *new_file));
  * lines.  The remaining bits of textual content are collected by the following
  * functions, which simply strip leading and trailing blank lines.
  */
-void start_comment _((boolean ateol));
-int end_comment _((boolean ateol));
-void add_comment _((const char *s));
-void newline_comment _((void));
+void start_comment(boolean ateol);
+int end_comment(boolean ateol);
+void add_comment(const char *s);
+void newline_comment(void);
 
 static int comment_newlines;	/* number of newlines hit in comment */
 static boolean comment_started;	/* have preceding empty lines been skipped */
@@ -349,8 +349,7 @@ QUOTED		({STRING}|\'(\\\'|[^'\n])*\'|\\.)
 /* If the matched text contains any new line characters, then update the
  * current line number.
  */
-static void
-update_line_num ()
+static void update_line_num(void)
 {
     const char *p = (const char *)yytext;
     while (*p != '\0') {
@@ -359,8 +358,7 @@ update_line_num ()
     }
 }
 
-void start_comment(ateol)
-boolean ateol;	/* does comment start at end of an existing line? */
+void start_comment(boolean ateol)
 {
     comment_remember =	(look_at_body_start && body_start) ||
 		    ((comment_caller == INITIAL || comment_caller == SKIP) &&
@@ -375,8 +373,7 @@ boolean ateol;	/* does comment start at end of an existing line? */
     }
 }
 
-int end_comment(ateol)
-boolean ateol;	/* does comment end at end of line? */
+int end_comment(boolean ateol)
 {
     if (comment_remember)
     {
@@ -416,7 +413,7 @@ boolean ateol;	/* does comment end at end of line? */
 }
 
 /* add a newline to the comment, deferring to remove trailing ones */
-void newline_comment()
+void newline_comment(void)
 {
     ++line_num;
 
@@ -426,8 +423,7 @@ void newline_comment()
 }
 
 /* add some true text to the comment */
-void add_comment(s)
-const char *s;
+void add_comment(const char * s)
 {
 #ifdef DEBUG
     fprintf(stderr,"`%s'\n", s);
@@ -448,8 +444,7 @@ const char *s;
 
 /* Scan rest of preprocessor statement.
  */
-static void
-get_cpp_directive ()
+static void get_cpp_directive(void)
 {
     int c, lastc = '\0';
 
@@ -488,10 +483,7 @@ get_cpp_directive ()
 
 /* Process include directive.
  */
-static void
-do_include (filename, sysinc)
-char *filename;		/* file name */
-int sysinc;		/* 1 = do not search current directory */
+static void do_include(char *filename, int sysinc)
 {
     char path[MAX_TEXT_LENGTH];
     int i;
@@ -527,8 +519,7 @@ int sysinc;		/* 1 = do not search current directory */
 }
 
 /* returns TRUE if the basefile status has changed */
-static boolean process_line_directive(new_file)
-const char *new_file;
+static boolean process_line_directive(const char * new_file)
 {
     boolean new_stdin;
 
@@ -554,8 +545,7 @@ const char *new_file;
 /* When the end of the current input file is reached, pop any
  * nested includes.
  */
-int
-yywrap ()
+int yywrap(void)
 {
     IncludeStack *sp;
 
@@ -579,7 +569,7 @@ yywrap ()
 }
 
 
-static void new_dynbuf()
+static void new_dynbuf(void)
 {
     if ((dynbuf = malloc(dynbuf_size = DYNBUF_ALLOC)) == 0)
 	outmem();
@@ -587,8 +577,7 @@ static void new_dynbuf()
     dynbuf_current = 0;
 }
 
-static void add_dynbuf(c)
-int c;
+static void add_dynbuf(int c)
 {
     if (dynbuf_current == dynbuf_size &&
 	((dynbuf = realloc(dynbuf,dynbuf_size += DYNBUF_ALLOC)) == 0))
@@ -597,7 +586,7 @@ int c;
     dynbuf[dynbuf_current++] = c;
 }
 
-static char *return_dynbuf()
+static char * return_dynbuf(void)
 {
     add_dynbuf('\0');
 
@@ -611,8 +600,7 @@ static char *return_dynbuf()
 /* Output an error message along with the current line number in the
  * source file.
  */
-void
-output_error ()
+void output_error(void)
 {
     errors++;
     fprintf(stderr, "%s:%d: ", cur_file ? cur_file : "stdin", line_num);

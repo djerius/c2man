@@ -45,20 +45,19 @@ enum LinkType
 extern ManualPage *firstpage;
 
 void
-new_manual_page _((char *comment, DeclSpec *decl_spec, Declarator *declarator));
+new_manual_page(char *comment, DeclSpec *decl_spec, Declarator *declarator);
 
 /* remember the terse description from the first comment in a file */
-void remember_terse _((char *comment));
+void remember_terse(char *comment);
 
-void output_manual_pages _((ManualPage *first, int num_input_files,
-    enum LinkType link_type));
+void output_manual_pages(ManualPage *first, int num_input_files, enum LinkType link_type);
 
-void free_manual_pages _((ManualPage *first));
+void free_manual_pages(ManualPage *first);
 
-void output_format_string _((const char *fmt));
+void output_format_string(const char *fmt);
 
-void output_warning _((void));
+void output_warning(void);
 
-void output_comment _((const char *comment));
+void output_comment(const char *comment);
 
 #endif

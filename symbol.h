@@ -2,8 +2,6 @@
  * Definitions for a symbol table
  */
 #include "config.h"
-#include "c2man-proto.h"
-
 #ifndef _SYMBOL_H
 #define _SYMBOL_H
 
@@ -27,15 +25,15 @@ typedef struct _symbol_table {
 } SymbolTable;
 
 /* Create symbol table */
-extern SymbolTable *create_symbol_table();
+extern SymbolTable *create_symbol_table(void);
 
 /* destroy symbol table */
-extern void destroy_symbol_table _((SymbolTable *symtab));
+extern void destroy_symbol_table(SymbolTable *symtab);
 
 /* Lookup symbol name */
-extern Symbol *find_symbol _((SymbolTable *symtab, char *name));
+extern Symbol *find_symbol(SymbolTable *symtab, char *name);
 
 /* Define new symbol */
-extern Symbol *new_symbol _((SymbolTable *symtab, char *name, int flags));
+extern Symbol *new_symbol(SymbolTable *symtab, char *name, int flags);
 
 #endif

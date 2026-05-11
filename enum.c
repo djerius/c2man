@@ -17,9 +17,7 @@ SymbolTable *enum_table;	/* enum symbol table */
 EnumeratorList *first_list = NULL, **last_next_list = &first_list;
 
 /* Initialize a list of enumerators.*/
-EnumeratorList *
-new_enumerator_list (enumerator)
-     Enumerator *enumerator;
+EnumeratorList * new_enumerator_list(Enumerator *enumerator)
 {
     Enumerator *p;
     EnumeratorList *list;
@@ -38,10 +36,7 @@ new_enumerator_list (enumerator)
 }
 
 /* Add the enumerator to the list. */
-void
-add_enumerator_list (list, enumerator)
-     EnumeratorList *list;
-     Enumerator *enumerator;
+void add_enumerator_list(EnumeratorList *list, Enumerator *enumerator)
 {
     Enumerator *p;
 
@@ -54,9 +49,7 @@ add_enumerator_list (list, enumerator)
 }
 
 /* Free storage used by the elements in the enumerator list. */
-void
-free_enumerator_list (enumerator_list)
-     EnumeratorList *enumerator_list;
+void free_enumerator_list(EnumeratorList *enumerator_list)
 {
     Enumerator *p, *next;
 
@@ -70,12 +63,7 @@ free_enumerator_list (enumerator_list)
 }
 
 
-void
-new_enumerator(e, name, comment_before, comment_after)
-     Enumerator *e;
-     char *name;
-     char *comment_before;
-     char *comment_after;
+void new_enumerator(Enumerator * e, char * name, char * comment_before, char * comment_after)
 {
     e-> name = name;
     e-> comment = comment_after ? comment_after : comment_before;
@@ -83,9 +71,7 @@ new_enumerator(e, name, comment_before, comment_after)
 }
 
 /* Free the storage used by the enumerator.*/
-void
-free_enumerator (param)
-     Enumerator *param;
+void free_enumerator(Enumerator *param)
 {
     free(param->name);
     safe_free(param->comment);
@@ -93,10 +79,7 @@ free_enumerator (param)
 }
 
 /* add a comment to the last enumerator in the list */
-int
-comment_last_enumerator(list, comment)
-     EnumeratorList *list;
-     char *comment;
+int comment_last_enumerator(EnumeratorList * list, char * comment)
 {
     if (list->last->comment)
     {
@@ -115,9 +98,7 @@ comment_last_enumerator(list, comment)
 }
 
 /* enum namespace management */
-void add_enum_symbol(name, enum_list)
-     char *name;
-     EnumeratorList *enum_list;
+void add_enum_symbol(char * name, EnumeratorList * enum_list)
 {
     Symbol *entry = new_symbol(enum_table, name, DS_NONE);
     
@@ -129,8 +110,7 @@ void add_enum_symbol(name, enum_list)
 }
 
 /* look for the Enumerator list associated with the symbol */
-EnumeratorList *find_enum_symbol(name)
-     char *name;
+EnumeratorList * find_enum_symbol(char *name)
 {
     Symbol *entry = find_symbol(enum_table, name);
     
@@ -140,7 +120,7 @@ EnumeratorList *find_enum_symbol(name)
     	return NULL;
 }
 
-void destroy_enum_lists()
+void destroy_enum_lists(void)
 {
     EnumeratorList *list, *next;
     
@@ -154,9 +134,7 @@ void destroy_enum_lists()
 }
 
 /* create new typedef symbols */
-void new_typedef_symbols(decl_spec, decl_list)
-     DeclSpec *decl_spec;
-     DeclaratorList *decl_list;
+void new_typedef_symbols(DeclSpec * decl_spec, DeclaratorList * decl_list)
 {
     Declarator *d;
     
@@ -172,8 +150,7 @@ void new_typedef_symbols(decl_spec, decl_list)
     }
 }
 
-void enumerator_error(name)
-     char *name;
+void enumerator_error(char * name)
 {
     yyerror("enumerator '%s' has multiple comments", name);
 }

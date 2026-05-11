@@ -7,9 +7,7 @@
 /* Copy the string into an allocated memory block.
  * Return a pointer to the copy.
  */
-char *
-strduplicate (s)
-const char *s;	/* The string to copy. May be NULL */
+char * strduplicate(const char *s)
 {
     char *dest;
 
@@ -23,9 +21,7 @@ const char *s;	/* The string to copy. May be NULL */
 }
 
 /* compare two strings case insensitively, for up to n chars */
-int strncmpi(s1, s2, n)
-const char *s1, *s2;
-size_t n;
+int strncmpi(const char *s1, const char *s2, size_t n)
 {
     while(n--)
     {
@@ -44,8 +40,7 @@ size_t n;
 }
 
 /* convert string to upper case */
-char *strtoupper(in)
-char *in;
+char * strtoupper(char *in)
 {
     char *s;
 
