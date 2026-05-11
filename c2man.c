@@ -11,13 +11,12 @@
 #include "strappend.h"
 #include "manpage.h"
 #include "output.h"
-#include "patchlevel.h"
 
-#ifdef I_FCNTL
+#ifdef HAVE_FCNTL_H
 #include <fcntl.h>
 #endif
 
-#ifdef I_SYS_FILE
+#ifdef HAVE_SYS_FILE_H
 #include <sys/file.h>
 #endif
 
@@ -129,7 +128,7 @@ int errors;
 
 /* name of the base file being processed; NULL = stdin */
 const char *basefile;
-Time_t basetime;	/* modification time of base file */
+time_t basetime;	/* modification time of base file */
 boolean inbasefile;	/* are we parsing in that base file? */
 
 /* is the base file a header file? */
@@ -163,11 +162,7 @@ const char *cpp_cmd = CPP_FILE_COM;
 boolean verbose = FALSE;
 
 /* can cpp read standard input? */
-static boolean cppcanstdin
-#ifdef CPP_CAN_STDIN
-			    = 1
-#endif
-;
+static boolean cppcanstdin = TRUE;
 /* does cpp ignore header files */
 static boolean cppignhdrs
 #ifdef CPP_IGN_HDRS
@@ -288,18 +283,18 @@ usage ()
     fputs(" -e\t\tmake embeddable files\n", stderr);
     fputc('\n', stderr);
     fputs(" -l ", stderr);
-#ifdef HAS_LINK
+#ifdef HAVE_LINK
     fputs("h|", stderr);
 #endif
-#ifdef HAS_SYMLINK
+#ifdef HAVE_SYMLINK
     fputs("s|", stderr);
 #endif
     fputs("f|n|r\t", stderr);
     fputs("linking for grouped pages: ", stderr);
-#ifdef HAS_LINK
+#ifdef HAVE_LINK
                   fputs("hard, ", stderr);
 #endif
-#ifdef HAS_SYMLINK
+#ifdef HAVE_SYMLINK
 					fputs("soft, ", stderr);
 #endif
 					fputs("file, none or remove\n", stderr);
@@ -348,10 +343,10 @@ usage ()
 /* name of the temporary file; kept here so we can blast it if hit with ctrl-C
  */
 static char temp_name[20];
-Signal_t (*old_interrupt_handler)();
+void (*old_interrupt_handler)_((int));
 
 /* ctrl-C signal handler for use when we have a temporary file */
-static Signal_t interrupt_handler(sig)
+static void interrupt_handler(sig)
 int sig;
 {
     unlink(temp_name);
@@ -381,13 +376,7 @@ FILE *open_temp_file()
 	 */
 	sprintf(temp_name,"c2man%ld.c",n++ % 1000000);
     }
-    while((fd =
-#ifdef HAS_OPEN3
-	open(temp_name,O_WRONLY|O_CREAT|O_EXCL,0666)
-#else
-	creat(temp_name,O_EXCL|0666)		/* do it the old way */
-#endif
-						) == -1
+    while((fd = open(temp_name,O_WRONLY|O_CREAT|O_EXCL,0666)) == -1
 							&& errno == EEXIST);
 
     /* install interrupt handler to remove the temporary file */
@@ -546,7 +535,7 @@ const char *base_cpp_cmd;
     basefile = NULL;
 
     /* use the current date in the man page */
-    basetime = time((Time_t *)NULL);
+    basetime = time((time_t *)NULL);
 
     inbasefile = 1;		/* reading stdin, we start in the base file */
 
@@ -583,8 +572,7 @@ const char *base_cpp_cmd;
     }
     else
     {
-	char *full_cpp_cmd = strconcat(base_cpp_cmd," ", CPP_STDIN_FLAGS,
-								   NULLCP);
+	char *full_cpp_cmd = strduplicate(base_cpp_cmd);
     
 	if (verbose)
 	    fprintf(stderr,"%s: running `%s'\n", progname, full_cpp_cmd);
@@ -615,7 +603,7 @@ char **argv;
     IncludeFile *includefile;
     ExcludeSection *excludesection;
     char *cpp_opts;
-#ifdef HAS_LINK
+#ifdef HAVE_LINK
     enum LinkType link_type = LINK_HARD;	/* for -g/G */
 #else
     enum LinkType link_type = LINK_FILE;
@@ -626,9 +614,7 @@ char **argv;
 #endif
 
     /* initialise CPP options with -D__C2MAN__ */
-    cbuf[0] = VERSION + '0';
-    cbuf[1] = '\0';
-    cpp_opts = strconcat("-D__C2MAN__=", cbuf, NULLCP);
+    cpp_opts = strconcat("-D__C2MAN__=", VERSION_MACRO, NULLCP);
 
     /* Scan command line options. */
     while ((c = getopt(argc, argv, "P:D:F:I:psU:Vvo:eM:H:G:gi:x:S:l:LT:nO:kbB"))
@@ -709,8 +695,8 @@ char **argv;
 	    break;
 	case 'V':
 	    verbose = TRUE;
-	    fprintf(stderr, "%s: Version %d, Patchlevel %d\n",
-					progname, VERSION, PATCHLEVEL);
+	    fprintf(stderr, "%s: Version %s\n",
+					progname, PACKAGE_VERSION);
 	    break;
 	case 'v':
 	    variables_out = TRUE;
@@ -747,10 +733,10 @@ char **argv;
 	case 'l':
 	    switch(optarg[0])
 	    {
-#ifdef HAS_LINK
+#ifdef HAVE_LINK
 	    case 'h':	link_type = LINK_HARD;	break;
 #endif
-#ifdef HAS_SYMLINK
+#ifdef HAVE_SYMLINK
 	    case 's':	link_type = LINK_SOFT;	break;
 #endif
 	    case 'f':	link_type = LINK_FILE;	break;

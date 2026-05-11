@@ -13,7 +13,7 @@
 #include "semantic.h"
 #include "output.h"
 
-#ifdef I_SYS_FILE
+#ifdef HAVE_SYS_FILE_H
 #include <sys/file.h>
 #endif
 
@@ -1110,16 +1110,7 @@ char *page_file_name(based_on, object_type, extension)
     char *filename;
     const char *subdir = output_object[object_type].subdir;
 
-#ifndef FLEXFILENAMES
-    char *basename;
-    int chopoff = 14 - strlen(extension) - 1;
-
-    basename = strduplicate(based_on);
-    if (strlen(basename) > chopoff)
-	basename[chopoff] = '\0';
-#else
     const char *basename = based_on;
-#endif
 
     filename = strduplicate(output_dir);
 
@@ -1132,9 +1123,6 @@ char *page_file_name(based_on, object_type, extension)
     if (filename)	filename = strappend(filename, "/", NULLCP);
     filename = strappend(filename, basename,".",extension, NULLCP);
 
-#ifndef FLEXFILENAMES
-    free(basename);
-#endif
     return filename;
 }
 
@@ -1161,7 +1149,7 @@ enum Output_Object output_type;
 int remove_old_file(name)
 const char *name;
 {
-#ifdef HAS_ACCESS
+#ifdef HAVE_ACCESS
     /* check that we have write premission before blasting it */
     if (access(name,W_OK) == -1)
     {
@@ -1296,12 +1284,12 @@ void output_manual_pages(first, input_files, link_type)
 
 	    switch(link_type)
 	    {
-#ifdef HAS_LINK
+#ifdef HAVE_LINK
 	    case LINK_HARD:
 		result = link(filename, linkname);
 		break;
 #endif
-#ifdef HAS_SYMLINK
+#ifdef HAVE_SYMLINK
 	    case LINK_SOFT:
 		result = symlink(filename, linkname);
 		break;

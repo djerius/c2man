@@ -25,15 +25,15 @@ struct ManualPage
     char *description;
     char *returns;
     char *sourcefile;
-    Time_t sourcetime;
+    time_t sourcetime;
 };
 
 enum LinkType
 {
-#ifdef HAS_LINK
+#ifdef HAVE_LINK
     LINK_HARD,	/* filesystem hard link */
 #endif
-#ifdef HAS_SYMLINK
+#ifdef HAVE_SYMLINK
     LINK_SOFT,	/* filesystem soft link */
 #endif
     LINK_FILE,	/* nroff file with .so directive */

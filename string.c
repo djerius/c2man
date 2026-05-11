@@ -22,30 +22,6 @@ const char *s;	/* The string to copy. May be NULL */
     return dest;
 }
 
-#ifndef HAS_STRSTR
-
-/* Return a pointer to the first occurence of the substring 
- * within the string, or NULL if not found.
- */
-char *
-strstr (src, key)
-const char *src, *key;
-{
-    char *s;
-    int keylen;
-
-    keylen = strlen(key);
-    s = strchr(src, *key);
-    while (s != NULL) {
-	if (strncmp(s, key, keylen) == 0)
-	    return s;
-	s = strchr(s+1, *key);
-    }
-    return NULL;
-}
-
-#endif
-
 /* compare two strings case insensitively, for up to n chars */
 int strncmpi(s1, s2, n)
 const char *s1, *s2;

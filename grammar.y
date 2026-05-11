@@ -70,12 +70,7 @@
 #include "manpage.h"
 #include "enum.h"
 
-#ifdef I_STDARG
 #include <stdarg.h>
-#endif
-#ifdef I_VARARGS
-#include <varargs.h>
-#endif
 
 int yylex();
 
@@ -872,26 +867,13 @@ opt_eolcomment
 %%
 #include "lex.yy.c"
 
-#ifdef I_STDARG
 void yyerror(const char *format, ...)
-#else
-void yyerror(va_alist)
-    va_dcl
-#endif
 {
-#ifndef I_STDARG
-    const char *format;
-#endif
     va_list args;
 
     output_error();
 
-#ifdef I_STDARG
     va_start(args, format);
-#else
-    va_start(args);
-    format = va_arg(args, char *);
-#endif
 
     vfprintf(stderr, format, args);
     va_end(args);

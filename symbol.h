@@ -2,6 +2,7 @@
  * Definitions for a symbol table
  */
 #include "config.h"
+#include "c2man-proto.h"
 
 #ifndef _SYMBOL_H
 #define _SYMBOL_H

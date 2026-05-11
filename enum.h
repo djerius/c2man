@@ -1,4 +1,5 @@
 #include "config.h"
+#include "c2man-proto.h"
 
 extern SymbolTable *enum_table;	/* enum symbol table */
 

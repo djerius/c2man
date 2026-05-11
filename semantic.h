@@ -2,6 +2,7 @@
  * Declarations for semantic action routines
  */
 #include "config.h"
+#include "c2man-proto.h"
 
 extern boolean is_typedef_name _((
 	char *name

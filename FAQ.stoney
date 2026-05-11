@@ -3,6 +3,76 @@ Frequently Asked Questions about c2man
 By Graham Stoney (greyham@research.canon.com.au)
 Last-modified: $Date: 1996/04/24 01:37:15 $
 
+Q. Where can I get an up-to-date already patched copy of c2man?
+
+A. You can usually get the latest version via ftp:
+	ftp /pub/Unix/Util/c2man-2.0.*.tar.gz from dnpap.et.tudelft.nl
+
+   Many thanks to Richard Kooijman <R.Kooijman@et.tudelft.nl> for providing
+   the ftp site, and keeping it up to date.  The very latest version probably
+   won't be available until a short time after each patch is issued, since
+   we're relying on Richard's kindness to apply the patches and keep the tar
+   file up to date manually.
+
+   You can also retrieve the latest version via the author's mail server, by
+   mailing to greyham@research.canon.com.au with a message like:
+
+	Subject: Command
+	@PACK shar
+	@SH maildist - c2man 2.0
+
+   In reply, you can expect on the order of 9 or so mail messages, each around
+   55 K long.  You'll also have the extra hassle of unpacking it.  Detailed
+   instructions on using the mail server can be obtained by mailing to the
+   same with address a message like:
+
+        Subject: Command
+        @SH mailhelp -
+
+   It should also be available in your local comp.sources.misc archive.  The
+   versions in the alt.sources and comp.sources.reviewed archives are
+   obsolete.  One day soon I'll be able to put it up for ftp here directly.
+
+
+Q. How do I remove myself from the c2man discussion list?
+
+A. You should have received instructions on how to do this when you joined the
+   list.  It's always wise to save a copy of the instructions you receive when
+   you join a mailing list, so that you can refer to them in future when you
+   wish to leave.
+
+   To remove yourself from the c2man discussion list, send E-mail to:
+        listserv@research.canon.com.au
+
+   With the message:
+	Subject:
+	unsubscribe c2man
+
+   You should also be able to unsubscribe be running Configure again, and
+   asking it to unsubscribe you when it asks if you wish to subscribe to, or
+   unsubscribe from the mailing list.
+
+   Note that the discussion list and the automatic patch notification/update
+   list are completely independant.
+
+
+Q. How do I remove myself from the c2man automatic patch notification/update
+   list?
+
+A. If you don't wish to receive future notification or mailing of new patches,
+   you need to send a message to the author's personal mail server.  In other
+   words, you send E-mail to:
+	greyham@research.canon.com.au
+
+   With the message:
+	Subject: Command
+	@SH package - c2man
+
+   You can also achieve the same effect by running Configure and asking that
+   future patches not be sent to you.  You may also alter your notification
+   vs update preference via Configure.
+
+
 Q. Can c2man handle C++?  Is anyone working on a version that can?
 
 A. No, it can't handle C++, although there are other tools that do a similar
@@ -10,6 +80,33 @@ A. No, it can't handle C++, although there are other tools that do a similar
    anyone who is actively working on it.  If you look in the file C++autodoc in
    the distribution, you'll get all the gory details.  This file is always kept
    up-to-date with the current state of play.
+
+
+Q. How do I apply the official patches to c2man?
+
+A. You need the patch program, by Larry Wall.  Chances are that it's already
+   installed on your system; if not, you could ask your system administrator
+   about getting it, or search for it using archie if you know how.  Once
+   you've got it, follow the instructions in each of the patch headers.  For
+   example, patch 10 says:
+
+    Fix:    From rn, say "| patch -p -N -d DIR", where DIR is your c2man source
+	    directory.  Outside of rn, say "cd DIR; patch -p -N <thisarticle".
+	    If you don't have the patch program, apply the following by hand,
+	    or get patch (version 2.0, latest patchlevel).
+    
+   In other words, 'cd' to your c2man directory and type:
+	    patch -p -N < patch10
+
+   That should feed the patch into the patch program, which will apply it.  You
+   also need to take care to follow the "After Patching" instructions in each
+   patch, and repeat this procedure for each patch.  In general, you can apply
+   all the patches without having to re-run Configure after every patch set,
+   although you must run Configure after patch30, because it renames a few
+   files.  You can apply patches 10 through 30 without having to run Configure
+   though.  The "After patching" instructions assume that you apply patches as
+   they are issued; you don't generally have to do them multiple times if
+   you're applying a whole group of patch sets.
 
 
 Q. Can c2man document structure fields automatically, like it does for enums?

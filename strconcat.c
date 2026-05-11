@@ -4,35 +4,17 @@
 #include "c2man.h"
 #include "strconcat.h"
 
-#ifdef I_STDARG
 #include <stdarg.h>
-#endif
-#ifdef I_VARARGS
-#include <varargs.h>
-#endif
 
 extern void outmem();
 
-#ifdef I_STDARG
 char *strconcat(const char *first, ...)
-#else
-char *strconcat(va_alist)
-    va_dcl
-#endif
 {
     size_t totallen;
     va_list argp;
     char *s, *retstring;
-#ifndef I_STDARG
-    char *first;
-#endif    
     /* add up the total length */
-#ifdef I_STDARG
     va_start(argp,first);
-#else
-    va_start(argp);
-    first = va_arg(argp, char *);
-#endif
 #ifdef DEBUG
     fprintf(stderr,"strconcat: \"%s\"",first);
 #endif
@@ -53,12 +35,7 @@ char *strconcat(va_alist)
     if ((retstring = malloc(totallen + 1)) == 0)
 	outmem();
 	
-#ifdef I_STDARG
     va_start(argp,first);
-#else
-    va_start(argp);
-    first = va_arg(argp, char *);
-#endif
     /* copy the stuff in */
     strcpy(retstring,first);
 

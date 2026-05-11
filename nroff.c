@@ -29,15 +29,8 @@ const char *name;
 const char *terse;
 const char *section;
 {
-#ifdef HAS_STRFTIME
     char month[20];
-#else
-    char *month;
-    static char *month_list[] =
-    { "January", "February", "March", "April", "May", "June",
-      "July", "August", "September", "October", "November", "December" };
-#endif
-    Time_t raw_time;
+    time_t raw_time;
     struct tm *filetime;
     
     if (make_embeddable) return;
@@ -48,17 +41,13 @@ const char *section;
     /* if lots of files contributed, use the current time; otherwise use the
      * time of the source file they came from.
      */
-    raw_time = (grouped && input_files > 1) ? time((Time_t *)NULL)
+    raw_time = (grouped && input_files > 1) ? time((time_t *)NULL)
 					    : firstpage->sourcetime;
 
     filetime = localtime(&raw_time);
 
-#ifdef HAS_STRFTIME
     /* generate the date format string */
     strftime(month, sizeof month,"%B",filetime);
-#else
-    month = month_list[filetime->tm_mon];
-#endif
 
     nroff_text(name);
 

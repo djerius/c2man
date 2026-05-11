@@ -4,6 +4,8 @@
 #ifndef OUTPUT_H
 #define OUTPUT_H
 
+#include "c2man-proto.h"
+
 /* To add a new output format:
  * 1. Add the new -Tx suboption to the manual page.
  * 2. Add handling for the new suboption to c2man.c, including the default

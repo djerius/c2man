@@ -5,49 +5,27 @@
 #define _C2MAN_H
 
 #include "config.h"
+#include "c2man-proto.h"
 #include "symbol.h"
 
-#ifdef I_SYS_TYPES
+#ifdef HAVE_SYS_TYPES_H
 #include <sys/types.h>
 #endif
 
-#ifdef I_STDLIB
 #include <stdlib.h>
-#endif
-
-#ifdef I_STRING
 #include <string.h>
-#else
-#include <strings.h>
-#endif
-
 #include <stdio.h>
 
-#ifdef I_UNISTD
+#ifdef HAVE_UNISTD_H
 #include <unistd.h>
 #endif
 
-#ifdef I_STDDEF
 #include <stddef.h>
-#endif
-
-#ifdef I_TIME
 #include <time.h>
-#endif
-#ifdef I_SYS_TIME
+#ifdef HAVE_SYS_TIME_H
 #include <sys/time.h>
 #endif
 
-#ifdef NeXT
-#include <libc.h>
-#undef ECHO	/* lex generates ECHO */
-#endif
-
-#ifdef DBMALLOC
-#include </usr/local/debug_include/malloc.h>
-#endif
-
-#include "confmagic.h"
 
 /* number of spaces in a tab */
 #define NUM_TAB_SPACES 4
@@ -241,7 +219,7 @@ extern char *output_dir;
 /* Global declarations */
 extern int line_num;
 extern const char *basefile;
-extern Time_t basetime;
+extern time_t basetime;
 extern boolean inbasefile;
 extern boolean header_file;
 extern SymbolTable *typedef_names;
