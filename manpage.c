@@ -562,21 +562,20 @@ split_function_comment(const char *comment, const char *identifier_name,
 
 		    /* find the end of the terse comment */
 		    while (*c && *c != '\n')
-		     {
+		    {
 			c++;
-		       /* '.' ends terse description only if it ends sentence */
-		       if (*(c-1)=='.' && *c && isspace(*c))
-                         break;
-		     }
+			/* '.' ends terse description only if it ends sentence */
+			if (*(c - 1) == '.' && *c && isspace((unsigned char)*c))
+			    break;
+		    }
 
 		    endterse = c;
 		    *terse = alloc_string(
 			afterdash < endterse ? afterdash : start_line,
 			endterse);
 
-		    /* skip it if it's a ., and any trailing spaces */
-		    if (*c == '.')
-			do c++; while (*c && *c != '\n' && isspace(*c));
+		    while (*c && *c != '\n' && isspace((unsigned char)*c))
+			c++;
 
 		    start_text = NULL;	/* look for it */
 
