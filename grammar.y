@@ -1,5 +1,4 @@
-/* $Id: grammar.y,v 2.0.1.18 1996/03/21 08:49:02 greyham Exp $
- *
+/*
  * yacc grammar for C manual page generator
  * This was derived from the grammar given in Appendix A of
  * "The C Programming Language" by Kernighan and Ritchie.

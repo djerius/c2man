@@ -1,5 +1,4 @@
-/* $Id: semantic.h,v 2.0.1.5 1994/01/07 07:04:40 greyham Exp $
- *
+/*
  * Declarations for semantic action routines
  */
 #include "config.h"

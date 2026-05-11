@@ -1,5 +1,4 @@
-/* $Id: c2man.c,v 2.0.1.39 1996/03/21 00:38:16 greyham Exp $
- *
+/*
  * C Manual page generator.
  * Reads C source code and outputs manual pages.
  */

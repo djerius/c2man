@@ -1,4 +1,4 @@
-/* $Id: html.c,v 2.0.1.7 1995/09/18 08:55:42 greyham Exp $
+/*
  * functions for html style output.
  */
 #include "c2man.h"

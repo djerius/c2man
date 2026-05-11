@@ -1,4 +1,4 @@
-/* $Id: strconcat.c,v 2.0.1.1 1993/05/17 02:12:09 greyham Exp $
+/*
  * concatenate a list of strings, storing them in a malloc'ed region
  */
 #include "c2man.h"

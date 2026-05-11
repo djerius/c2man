@@ -1,5 +1,3 @@
-/* $Id: strappend.c,v 2.0.1.2 1994/01/07 07:05:39 greyham Exp $
- */
 #include "c2man.h"
 #include "strappend.h"
 

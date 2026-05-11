@@ -1,4 +1,4 @@
-/* $Id: texinfo.c,v 2.0.1.17 1995/09/18 08:47:43 greyham Exp $
+/*
  * functions for texinfo style output.
  */
 #include "c2man.h"

@@ -1,4 +1,3 @@
-RCS_ID_C="$Id: popen.c,v 2.0.1.1 1995/07/05 08:08:27 greyham Exp $";
 /*
  *      popen.c - Unix comaptible popen() and pclose()
  *

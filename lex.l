@@ -1,6 +1,5 @@
 %{
-/* $Id: lex.l,v 2.0.1.31 1996/03/21 09:12:38 greyham Exp $
- *
+/*
  * C manual page generator
  * Lexical analyzer specification
  */

@@ -7,7 +7,6 @@
  * that running config.h.SH again will wipe out any changes you've made.
  * For a more permanent change edit config.sh and rerun config.h.SH.
  *
- * $Id: config.h,v 2.0.1.1 1994/05/19 01:10:45 greyham Exp $
  */
 
 /* Configuration time: Tue Apr 26 09:56:37 PDT 1994

@@ -1,5 +1,4 @@
-/* $Id: c2man.h,v 2.0.1.19 1996/03/21 08:23:27 greyham Exp $
- *
+/*
  * Definitions for C language manual page generator
  */
 #ifndef _C2MAN_H

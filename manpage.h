@@ -1,4 +1,4 @@
-/* $Id: manpage.h,v 2.0.1.5 1993/11/08 00:01:38 greyham Exp $
+/*
  * stuff to do with manual page outputing
  */
 #ifndef MANPAGE_H

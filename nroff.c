@@ -1,4 +1,4 @@
-/* $Id: nroff.c,v 2.0.1.19 1995/09/18 08:47:29 greyham Exp $
+/*
  * functions for nroff style output.
  */
 #include "c2man.h"

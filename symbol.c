@@ -1,5 +1,4 @@
-/* $Id: symbol.c,v 2.0.1.2 1993/08/31 05:05:20 greyham Exp $
- *
+/*
  * Symbol table maintenance. Implements an abstract data type called
  * the symbol table.
  */

@@ -1,4 +1,3 @@
-# $Id: fixexamp.in,v 2.0.1.3 1994/05/12 01:29:35 greyham Exp $
 # Fix up c2man output for inclusion of examples in the c2man manual page.
 # This file gets processed to remove comments because some sed's can't handle
 # them. Can you believe it?.

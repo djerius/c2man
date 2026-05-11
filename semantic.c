@@ -1,5 +1,4 @@
-/* $Id: semantic.c,v 2.0.1.14 1996/03/21 08:23:48 greyham Exp $
- *
+/*
  * C manual page generator
  * These routines implement the semantic actions executed by the yacc parser.
  */

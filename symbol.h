@@ -1,5 +1,4 @@
-/* $Id: symbol.h,v 2.0.1.2 1993/08/31 05:04:35 greyham Exp $
- *
+/*
  * Definitions for a symbol table
  */
 #include "config.h"

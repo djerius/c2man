@@ -1,4 +1,4 @@
-/* $Id: latex.c,v 2.0.1.12 1995/07/07 00:46:47 greyham Exp $
+/*
  * functions for LaTeX style output.
  */
 #include "c2man.h"

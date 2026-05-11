@@ -1,4 +1,4 @@
-/* $Id: enum.c,v 2.0.1.1 1993/08/31 05:07:21 greyham Exp $
+/*
  * enumerator operations
  */
 #include "c2man.h"

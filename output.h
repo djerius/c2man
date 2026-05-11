@@ -1,4 +1,4 @@
-/* $Id: output.h,v 2.0.1.12 1995/07/05 08:45:12 greyham Exp $
+/*
  * format-independant output interface.
  */
 #ifndef OUTPUT_H

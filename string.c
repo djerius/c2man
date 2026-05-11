@@ -1,5 +1,4 @@
-/* $Id: string.c,v 2.0.1.2 1994/01/07 07:05:10 greyham Exp $
- *
+/*
  * Some string handling routines
  */
 #include "c2man.h"

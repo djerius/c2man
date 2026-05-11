@@ -1,4 +1,4 @@
-/* $Id: manpage.c,v 2.0.1.55 1996/03/21 08:24:21 greyham Exp $
+/*
  * stuff to do with manual page outputing
  */
 
