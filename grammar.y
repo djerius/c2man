@@ -870,15 +870,7 @@ opt_eolcomment
 	;
 
 %%
-#ifdef MSDOS
-#include "lex_yy.c"
-#else
-#ifdef VMS
-#include "lexyy.c"
-#else
 #include "lex.yy.c"
-#endif /* !VMS   */
-#endif /* !MSDOS */
 
 #ifdef I_STDARG
 void yyerror(const char *format, ...)

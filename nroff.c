@@ -85,13 +85,6 @@ const char *section;
 #endif
     put_string("\"\n");    
 
-#ifdef NeXT
-    /* define our own .SS on packages (such as NeXT's) where it doesn't move
-     * left a little. Sorry, awf doesn't support .SS.
-     */
-    put_string(".de SS\n.}X .25i \"\" \"\"\n.nr )E 2\n");
-    put_string("\\&\\\\$1\n.br\n..\n");
-#endif
 }
 
 void nroff_dash()	{ put_string("\\-"); }

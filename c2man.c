@@ -121,18 +121,8 @@ struct Output_Object_Info output_object[_OBJECT_NUM] =
 };
 
 /* Include file directories */
-#ifdef MSDOS
-int num_inc_dir = 1;
-const char *inc_dir[MAX_INC_DIR] = { ".\\" };
-#else
-#ifdef AMIGA
-int num_inc_dir = 1;
-const char *inc_dir[MAX_INC_DIR] = { "include:" };
-#else
 int num_inc_dir = 2;
 const char *inc_dir[MAX_INC_DIR] = { "./", "/usr/include/" };
-#endif
-#endif
 
 /* total number of errors encountered */
 int errors;
@@ -145,14 +135,9 @@ boolean inbasefile;	/* are we parsing in that base file? */
 /* is the base file a header file? */
 boolean header_file;
 
-#ifdef AMIGA
-struct Output *output = &autodoc_output;
-const char *default_section = "doc";
-#else
 /* use nroff output by default */
 struct Output *output = &nroff_output;
 const char *default_section = "3";
-#endif
 
 /* should we generate the output file named after the input file? */
 boolean use_input_name = FALSE;
@@ -527,9 +512,6 @@ const char *name;
 	print_includes(tempf);
 	if (verbose)	print_includes(stderr);
 
-#ifdef apollo
-	fprintf(tempf,"#define __attribute(p)\n", basefile);
-#endif
 	fprintf(tempf,"#include \"%s\"\n", basefile);
 	if (verbose)	fprintf(stderr,"#include \"%s\"\n", basefile);
 
@@ -646,14 +628,7 @@ char **argv;
     /* initialise CPP options with -D__C2MAN__ */
     cbuf[0] = VERSION + '0';
     cbuf[1] = '\0';
-#ifdef VMS
-    cpp_opts = strconcat("-\"D__C2MAN__=", cbuf, "\"",NULLCP);
-#else
     cpp_opts = strconcat("-D__C2MAN__=", cbuf, NULLCP);
-#ifdef NeXT
-    cpp_opts = strappend(cpp_opts, " -D_NEXT_SOURCE", NULLCP);
-#endif /* !NeXT */
-#endif /* !VMS  */
 
     /* Scan command line options. */
     while ((c = getopt(argc, argv, "P:D:F:I:psU:Vvo:eM:H:G:gi:x:S:l:LT:nO:kbB"))
