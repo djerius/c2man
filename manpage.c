@@ -2,6 +2,12 @@
  * stuff to do with manual page outputing
  */
 
+/*
+ * This file has been modified by Manoj Srivastava <srivasta@debian.org>
+ * to incorporate a patch that was also submitted to the author. The change
+ * shall be incorporated upstream in due course.
+ */
+
 #include "c2man.h"
 
 #include <errno.h>
@@ -555,10 +561,15 @@ split_function_comment(const char *comment, const char *identifier_name,
 		    const char *endterse, *afterdash = skipdash(start_line);
 
 		    /* find the end of the terse comment */
-		    while (*c && *c != '.' && *c != '\n')
+		    while (*c && *c != '\n')
+		     {
 			c++;
+		       /* '.' ends terse description only if it ends sentence */
+		       if (*(c-1)=='.' && *c && isspace(*c))
+                         break;
+		     }
 
-		    endterse = *c == '.' ? c+1 : c;
+		    endterse = c;
 		    *terse = alloc_string(
 			afterdash < endterse ? afterdash : start_line,
 			endterse);
