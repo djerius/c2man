@@ -1,0 +1,15 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+cd "$(dirname "$0")"
+
+for tool in autoreconf aclocal autoconf automake; do
+    if ! command -v "$tool" >/dev/null 2>&1; then
+        echo "bootstrap: required tool '$tool' not found" >&2
+        exit 1
+    fi
+done
+
+mkdir -p m4 build-aux
+
+exec autoreconf --force --install --verbose

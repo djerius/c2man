@@ -1,6 +1,11 @@
+# c2man
+
+## History
 See README.stoney for the original README.
 
 This is a revised version of the original c2man code by Graham Stoney.
+
+## Changes
 
 The following changes have been made:
 
@@ -13,3 +18,21 @@ The following changes have been made:
 * No longer relevent sections of the FAQ have been removed; the original is in FAQ.stoney
 * ChangeLog now provides changes since 2.0.41; see CHANGES & ChangeLog.stoney for older changes
 
+## Building from the repository
+
+* Create the configuration script and required artifacts.
+```
+./bootstrap
+```
+* Configure
+```
+./configure
+```
+* Build
+```
+make
+````
+* Test
+```
+make check
+```

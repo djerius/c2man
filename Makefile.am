@@ -28,7 +28,7 @@ eg_DATA = \
 
 EXTRA_DIST = \
 	CHANGES C++autodoc FAQ FAQ.stoney README README.stoney \
-	ChangeLog ChangeLog.stoney catalog c2man.man \
+	ChangeLog ChangeLog.stoney bootstrap catalog c2man.man \
 	ctype_ex.h example.h fixexamp.in flatten.sed.in \
 	grammar.y lex.l \
 	$(eg_DATA)

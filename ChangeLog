@@ -1,3 +1,19 @@
+2.1.2 : 2026-05-12T14:11:49-0400
+
+ [BUILD]
+
+    - Remove attempt to provide building from repo contents, as can't rely on
+      timestamps recorded by the VCS.
+
+    - add bootstrap script to run autotool programs to generate configuration
+     script and required artifacts.
+
+2.1.1 : 2026-05-12T12:59:01-0400
+
+ [BUILD]
+
+    - add missing generated files so can build from repo without autotoools
+
 2.1.0 : 2026-05-11T15:34:13-0400
 
   [ENHANCEMENTS]
@@ -16,4 +32,4 @@
 
 	- ANSI prototypes
 	- use GNU Autotools for configuration
-        - removed support for VMS, Amiga, PC, Apollo, Next
+	- removed support for VMS, Amiga, PC, Apollo, Next
