@@ -1,0 +1,56 @@
+name: Release distribution
+
+on:
+  release:
+    types: [published]
+  workflow_dispatch:
+    inputs:
+      tag:
+        description: Release tag to upload the distribution archive to
+        required: true
+        type: string
+
+permissions:
+  contents: write
+
+jobs:
+  dist:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Check out source
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event_name == 'workflow_dispatch' && inputs.tag || github.ref }}
+
+      - name: Install build dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y autoconf automake build-essential flex bison
+
+      - name: Bootstrap autotools
+        run: ./bootstrap
+
+      - name: Configure
+        run: ./configure
+
+      - name: Build and test distribution
+        run: make distcheck
+
+      - name: Upload distribution to release
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          RELEASE_TAG: ${{ github.event_name == 'release' && github.event.release.tag_name || inputs.tag }}
+        run: |
+          set -euo pipefail
+          shopt -s nullglob
+          files=(c2man-*.tar.*)
+          if [ ${#files[@]} -eq 0 ]; then
+            echo "No distribution archives found" >&2
+            exit 1
+          fi
+          if [ -z "${RELEASE_TAG}" ]; then
+            echo "No release tag available" >&2
+            exit 1
+          fi
+          gh release upload "${RELEASE_TAG}" "${files[@]}" --clobber
