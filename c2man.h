@@ -66,7 +66,7 @@ typedef struct _parameter_list {
 
 /* This structure stores information about a declaration specifier. */
 typedef struct _decl_spec {
-    unsigned short	flags;	/* flags defined above */
+    int		flags;	/* flags defined above */
     char		*text;	/* source text */
     struct _enumerator_list *enum_list;	/* associated enum (if any) */
 } DeclSpec;

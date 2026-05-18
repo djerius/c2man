@@ -25,7 +25,7 @@ int strncmpi(const char *s1, const char *s2, size_t n)
 {
     while(n--)
     {
-	char c1 = *s1, c2 = *s2;
+	int c1 = *s1, c2 = *s2;
 
 	if (c1 == '\0' && c2 == '\0')	break;
 
@@ -46,7 +46,7 @@ char * strtoupper(char *in)
 
     for (s = in; *s; s++)
     {
-	if (islower(*s))	*s = toupper(*s);
+	if (islower(*s))	*s = (char)toupper((unsigned char)*s);
     }
     return in;
 }

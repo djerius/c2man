@@ -29,19 +29,19 @@
 
 #define MAX_TAG      10
 
-static const int linelength   = 79;
-static const int tablength    =  4;
-static const int indentlength =  4;
+static const size_t linelength   = 79;
+static const size_t tablength    =  4;
+static const size_t indentlength =  4;
 
-static int indent      = 4;
-static int list_indent = 0;
-static int column      = 0;
+static size_t indent      = 4;
+static size_t list_indent = 0;
+static size_t column      = 0;
 static int newline     = FALSE;
 static int breakline   = FALSE;
 static int see_also    = FALSE;
 static int fileend     = FALSE;
 static int acttable    = -1;
-static int tablemaxtag[MAX_TAG];
+static size_t tablemaxtag[MAX_TAG];
 
 static void autodoc_format(const char * text)
 {
@@ -56,7 +56,7 @@ static void autodoc_format(const char * text)
 
     if(newline)
     {
-       int i;
+       size_t i;
        column = i = indent + list_indent;
        for(; i ; i--)
           putchar(' ');
@@ -91,7 +91,7 @@ static void autodoc_char(const int c)
 
        if(c == '\t')
        {
-          int i = tablength - (column % tablength);
+          size_t i = tablength - (column % tablength);
           column += i;
           for(; i ; i--)
              putchar(' ');
@@ -119,8 +119,8 @@ static void autodoc_comment(void) { }
 static void autodoc_header(ManualPage * firstpage, int input_files, boolean grouped, const char * name, const char * terse, const char * section)
 {
     const char *basename = strrchr(firstpage->sourcefile, '/');
-    int len;
-    int spc;
+    size_t len;
+    size_t spc;
 
     (void)input_files;
     (void)grouped;
@@ -132,8 +132,8 @@ static void autodoc_header(ManualPage * firstpage, int input_files, boolean grou
     if(basename && *basename == '/')
         basename++;
 
-    len =  ((basename) ? strlen(basename) + 1 : 0) + strlen(name);
-    spc  = linelength - 2 * len;
+    len = ((basename) ? strlen(basename) + 1 : 0) + strlen(name);
+    spc = (2 * len < linelength) ? linelength - 2 * len : 0;
 
     see_also = FALSE;
 
@@ -144,7 +144,7 @@ static void autodoc_header(ManualPage * firstpage, int input_files, boolean grou
     }
     autodoc_text(name);
 
-    if(spc > 0)
+    if(spc)
     {
       while(spc)
       {
@@ -160,7 +160,7 @@ static void autodoc_header(ManualPage * firstpage, int input_files, boolean grou
     } else
     {
        const char *ptr = name;
-       len = linelength - 1 - len;
+       len = (len < linelength - 1) ? linelength - 1 - len : 0;
 
        while(len)
        {
@@ -276,7 +276,7 @@ static void autodoc_table_start(const char * longestag)
 
 static void autodoc_table_entry(const char * name, const char * description)
 {
-    int i = tablemaxtag[acttable] - strlen(name) + 1;
+    size_t i = tablemaxtag[acttable] - strlen(name) + 1;
 
     autodoc_code(name);
     while(i > 0)
@@ -306,7 +306,7 @@ static void autodoc_table_end(void)
 
 static void autodoc_indent(void)
 {
-    int i;
+    size_t i;
     for(i = indent + list_indent; i ; i--)
        autodoc_char(' ');
 }
@@ -391,7 +391,7 @@ static void autodoc_description(const char * text)
 static void autodoc_returns(const char * comment)
 {
     enum { TEXT, PERIOD, CAPITALISE } state = CAPITALISE;
-    char lastchar = '\n';
+    int lastchar = '\n';
     boolean tag_list_started = FALSE;
 
     /* for each line... */
@@ -456,7 +456,7 @@ static void autodoc_returns(const char * comment)
 	/* correct punctuation a bit as the line goes out */
 	for (;*comment && *comment != '\n'; comment++)
 	{
-	    char c = *comment;
+	    int c = *comment;
 
 	    if (c == '.')
 		state = PERIOD;

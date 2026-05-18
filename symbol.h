@@ -8,7 +8,7 @@
 typedef struct _symbol {
     struct _symbol *next;	/* next symbol in list */
     char *name;			/* name of symbol */
-    unsigned short flags;	/* symbol attributes */
+    int flags;	/* symbol attributes */
 
 	enum { SYMVAL_NONE, SYMVAL_ENUM } valtype;
 	

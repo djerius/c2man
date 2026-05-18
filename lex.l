@@ -18,8 +18,8 @@ static char buf[MAX_TEXT_LENGTH];
 
 #define DYNBUF_ALLOC	240	/* size of increment of dynamic buf */
 static char *dynbuf;		/* start of dynamic buf */
-static int dynbuf_size;		/* number of bytes allocated */
-static int dynbuf_current;	/* current end of buffer */
+static size_t dynbuf_size;		/* number of bytes allocated */
+static size_t dynbuf_current;	/* current end of buffer */
 
 static boolean comment_ateol;	/* does comment start & end at end of a line? */
 static boolean comment_remember;/* remember contents of current comment? */
@@ -612,7 +612,7 @@ static void add_dynbuf(int c)
 	((dynbuf = realloc(dynbuf,dynbuf_size += DYNBUF_ALLOC)) == 0))
 	    outmem();
 	
-    dynbuf[dynbuf_current++] = c;
+    dynbuf[dynbuf_current++] = (char)c;
 }
 
 static char * return_dynbuf(void)

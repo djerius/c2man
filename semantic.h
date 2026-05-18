@@ -42,7 +42,7 @@ int
 remember_declarations(char *comment, /* comment associated */ DeclSpec *decl_spec, /* declaration specifier */ DeclaratorList *decl_list, /* list of declared variables */ char *eolcomment);
 
 void
-dyn_decl_spec(DeclSpec *decl_spec, char *text, unsigned int flags);
+dyn_decl_spec(DeclSpec *decl_spec, char *text, int flags);
 
 void
 new_enum_decl_spec(DeclSpec *decl_spec, char *text, int flags, EnumeratorList *enum_list);

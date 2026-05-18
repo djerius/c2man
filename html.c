@@ -291,7 +291,7 @@ static void html_description(const char * text)
 static void html_returns(const char * comment)
 {
     enum { TEXT, PERIOD, CAPITALISE } state = CAPITALISE;
-    char lastchar = '\n';
+    int lastchar = '\n';
     boolean tag_list_started = FALSE;
 
     /* for each line... */
@@ -356,7 +356,7 @@ static void html_returns(const char * comment)
 	/* correct punctuation a bit as the line goes out */
 	for (;*comment && *comment != '\n'; comment++)
 	{
-	    char c = *comment;
+	    int c = *comment;
 
 	    if (c == '.')
 		state = PERIOD;

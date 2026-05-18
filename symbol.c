@@ -52,7 +52,7 @@ static unsigned int hash(char *name)
     h = 0;
     s = name;
     while (*s != '\0')
-	h = (h << 1) ^ *s++;
+	h = (h << 1) ^ (unsigned char)*s++;
     return h % SYM_MAX_HASH;
 }
 
@@ -88,7 +88,7 @@ Symbol * find_symbol(SymbolTable *symtab, char *name)
 Symbol * new_symbol(SymbolTable *symtab, char *name, int flags)
 {
     Symbol *sym;
-    int i;
+    unsigned int i;
 
     if ((sym = find_symbol(symtab, name)) == NULL) {
 	sym = (Symbol *)safe_malloc(sizeof(Symbol));

@@ -608,7 +608,7 @@ int main(int argc, char **argv)
 	case 'I':
 	case 'D':
 	case 'U':
-	    cbuf[0] = c; cbuf[1] = '\0';
+	    cbuf[0] = (char)c; cbuf[1] = '\0';
 	    if (cpp_opts)
 		cpp_opts = strappend(cpp_opts," -",cbuf,optarg,NULLCP);
 	    else

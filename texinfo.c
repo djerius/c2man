@@ -14,7 +14,7 @@ static char *heading_in_contents[] =
 
 #define n_levels  (sizeof(heading_not_in_contents) / sizeof(char *))
 
-#define level(n) ((n) >= n_levels ? n_levels - 1 : (n))
+#define level(n) ((size_t)(n) >= n_levels ? n_levels - 1 : (size_t)(n))
 
 /* section level for man page entry */
 static int top_level = 1;
@@ -273,7 +273,7 @@ static void texinfo_description(const char * text)
 static void texinfo_returns(const char * comment)
 {
     enum { TEXT, PERIOD, CAPITALISE } state = CAPITALISE;
-    char lastchar = '\n';
+    int lastchar = '\n';
     boolean tag_list_started = FALSE;
 
     /* for each line... */
@@ -338,7 +338,7 @@ static void texinfo_returns(const char * comment)
 	/* correct punctuation a bit as the line goes out */
 	for (;*comment && *comment != '\n'; comment++)
 	{
-	    char c = *comment;
+	    int c = *comment;
 
 	    if (c == '.')
 		state = PERIOD;

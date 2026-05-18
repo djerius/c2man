@@ -98,13 +98,13 @@ void free_manual_pages(ManualPage * first)
 /* allocate a substring starting at start, ending at end (NOT including *end) */
 char * alloc_string(const char *start, const char *end)
 {
-    int len = end - start;
+    ptrdiff_t len = end - start;
     char *ret;
     if (len == 0)	return NULL;
     
-    ret = (char *)safe_malloc((size_t)len+1);
+    ret = (char *)safe_malloc((size_t)len + 1);
 
-    strncpy(ret,start,len);
+    strncpy(ret,start,(size_t)len);
     ret[len] = '\0';
 
     return ret; 
@@ -187,7 +187,7 @@ static void output_identifier_description(const char *comment,
     /* output list of possible enum values, if any */
     if (decl_spec->enum_list)
     {
-	int maxtaglen = 0;
+	size_t maxtaglen = 0;
 	char *longestag = NULL;
 	int descriptions = 0;
 	int entries = 0;
@@ -206,7 +206,7 @@ static void output_identifier_description(const char *comment,
 	for (e = decl_spec->enum_list->first; e; e = e->next)
 	    if (e->name[0] != '_')
 	    {
-		int taglen = strlen(e->name);
+		size_t taglen = strlen(e->name);
 		if (taglen > maxtaglen)
 		{
 		    maxtaglen = taglen;
@@ -481,7 +481,8 @@ split_function_comment(const char *comment, const char *identifier_name,
 
 	if (section_heading)
 	{
-	    size_t section_len = c - start_line; /* length of section name */
+	    /* start_line is always >= c */
+	    size_t section_len = (size_t)(c - start_line); /* length of section name */
 
 	    /* yes, we've found a SECTION; store the previous one (if any) */
 	    if (put_ptr && start_text)

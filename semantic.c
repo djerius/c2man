@@ -46,7 +46,7 @@ void new_enum_decl_spec(DeclSpec *decl_spec, char *text, int flags, EnumeratorLi
 }
 
 /* Initialize a new declaration specifier part, but don't strdup the text. */
-void dyn_decl_spec(DeclSpec *decl_spec, char *text, unsigned int flags)
+void dyn_decl_spec(DeclSpec *decl_spec, char *text, int flags)
 {
     decl_spec->text = text;
     decl_spec->flags = flags;
