@@ -356,7 +356,6 @@ FILE * open_temp_file(void)
     int fd;
     long n = getpid();
     FILE *tempf;
-    boolean remove_temp_file(void);
 
     /* keep generating new names until we hit one that does not exist */
     do

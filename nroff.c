@@ -7,19 +7,19 @@
 #include "semantic.h"
 #include <ctype.h>
 
-void nroff_text(const char * text)
+static void nroff_text(const char * text)
 {
     put_string(text);
 }
 
-void nroff_char(const int c)
+static void nroff_char(const int c)
 {
     putchar(c);
 }
 
-void nroff_comment(void) { put_string(".\\\" "); }
+static void nroff_comment(void) { put_string(".\\\" "); }
 
-void nroff_header(ManualPage * firstpage, int input_files, boolean grouped, const char * name, const char * terse, const char * section)
+static void nroff_header(ManualPage * firstpage, int input_files, boolean grouped, const char * name, const char * terse, const char * section)
 {
     char month[20];
     time_t raw_time;
@@ -68,46 +68,46 @@ void nroff_header(ManualPage * firstpage, int input_files, boolean grouped, cons
 
 }
 
-void nroff_dash(void)	{ put_string("\\-"); }
+static void nroff_dash(void)	{ put_string("\\-"); }
 
-void nroff_section(const char * name)
+static void nroff_section(const char * name)
 {
     put_string(".SH \"");
     nroff_text(name);
     put_string("\"\n");
 }
 
-void nroff_sub_section(const char * name)
+static void nroff_sub_section(const char * name)
 {
     put_string(".SS \"");
     nroff_text(name);
     put_string("\"\n");
 }
 
-void nroff_break_line(void)	{ put_string(".br\n"); }
-void nroff_blank_line(void) { put_string(".sp\n"); }
+static void nroff_break_line(void)	{ put_string(".br\n"); }
+static void nroff_blank_line(void) { put_string(".sp\n"); }
 
-void nroff_code_start(void) { put_string(".ft B\n"); }
-void nroff_code_end(void)	{ put_string(".ft R\n"); }
+static void nroff_code_start(void) { put_string(".ft B\n"); }
+static void nroff_code_end(void)	{ put_string(".ft R\n"); }
 
-void nroff_code(const char * text)
+static void nroff_code(const char * text)
 {
     put_string("\\fB");
     nroff_text(text);
     put_string("\\fR");
 }
 
-void nroff_tag_entry_start(void)		{ put_string(".TP\n.B \""); }
-void nroff_tag_entry_start_extra(void)	{ put_string(".TP\n.BR \""); }
-void nroff_tag_entry_end(void)		{ put_string("\"\n"); }
-void nroff_tag_entry_end_extra(const char * text)
+static void nroff_tag_entry_start(void)		{ put_string(".TP\n.B \""); }
+static void nroff_tag_entry_start_extra(void)	{ put_string(".TP\n.BR \""); }
+static void nroff_tag_entry_end(void)		{ put_string("\"\n"); }
+static void nroff_tag_entry_end_extra(const char * text)
 {
     put_string("\" \"\t(");
     nroff_text(text);
     put_string(")\"\n");
 }
 	
-void nroff_table_start(const char * longestag)
+static void nroff_table_start(const char * longestag)
 {
     void nroff_list_start(void);
     nroff_list_start();
@@ -124,7 +124,7 @@ void nroff_table_start(const char * longestag)
     nroff_code_end();
 }
 
-void nroff_table_entry(const char * name, const char * description)
+static void nroff_table_entry(const char * name, const char * description)
 {
     put_string(".TP \\n(TLu\n");
 
@@ -136,46 +136,46 @@ void nroff_table_entry(const char * name, const char * description)
 	nroff_char('\n');
 }
 
-void nroff_table_end(void)	{ put_string(".RE\n.PD\n"); }
+static void nroff_table_end(void)	{ put_string(".RE\n.PD\n"); }
 
-void nroff_indent(void)	{ put_string(".IP\n"); }
+static void nroff_indent(void)	{ put_string(".IP\n"); }
 
-void nroff_list_start(void) { put_string(".RS 0.75in\n.PD 0\n"); }
+static void nroff_list_start(void) { put_string(".RS 0.75in\n.PD 0\n"); }
 
-void nroff_list_entry(const char * name)
+static void nroff_list_entry(const char * name)
 {
     nroff_code(name);
 }
 
-void nroff_list_separator(void) { put_string(",\n"); }
-void nroff_list_end(void)	{ nroff_char('\n'); nroff_table_end(); }
+static void nroff_list_separator(void) { put_string(",\n"); }
+static void nroff_list_end(void)	{ nroff_char('\n'); nroff_table_end(); }
 
-void nroff_include(const char * filename)
+static void nroff_include(const char * filename)
 {
     printf(".so %s\n", filename);
 }
 
-void nroff_name(const char * name)
+static void nroff_name(const char * name)
 {
     if (name) nroff_text(name);
     else      nroff_section("NAME");
 }
 
-void nroff_terse_sep(void)
+static void nroff_terse_sep(void)
 {
     nroff_char(' ');
     nroff_dash();
     nroff_char(' ');
 }
 
-void nroff_emphasized(const char * text)
+static void nroff_emphasized(const char * text)
 {
     put_string("\\fI");
     nroff_text(text);
     put_string("\\fR");
 }
 
-void nroff_reference(const char * text)
+static void nroff_reference(const char * text)
 {
     nroff_text(text);
     nroff_char('(');
@@ -183,7 +183,7 @@ void nroff_reference(const char * text)
     nroff_char(')');
 }
 
-void nroff_description(const char * text)
+static void nroff_description(const char * text)
 {
     enum { TEXT, PERIOD, CAPITALISE } state = CAPITALISE;
     boolean new_line = TRUE;
@@ -223,7 +223,7 @@ void nroff_description(const char * text)
     if (!dot_command && state == TEXT)	output->character('.');
 }
 
-void nroff_returns(const char * comment)
+static void nroff_returns(const char * comment)
 {
     enum { TEXT, PERIOD, CAPITALISE } state = CAPITALISE;
     char lastchar = '\n';

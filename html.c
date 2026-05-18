@@ -9,10 +9,10 @@
 
 static int html_in_code = 0;
 
-void html_terse_sep(void);
-void html_description(const char *text);
+static void html_terse_sep(void);
+static void html_description(const char *text);
 
-void html_char(const int c)
+static void html_char(const int c)
 {
   switch (c)
   {
@@ -34,7 +34,7 @@ void html_char(const int c)
   }
 }
 
-void html_text(const char * text)
+static void html_text(const char * text)
 {
   while(*text)
   {
@@ -43,12 +43,12 @@ void html_text(const char * text)
 }
 
 
-void html_comment(void)
+static void html_comment(void)
 {
   put_string("<!");
 }
 
-void html_header(ManualPage         * firstpage, int input_files, boolean grouped, const char         * name, const char         * terse, const char         * section)
+static void html_header(ManualPage         * firstpage, int input_files, boolean grouped, const char         * name, const char         * terse, const char         * section)
 {
 
   output_warning();
@@ -62,31 +62,31 @@ void html_header(ManualPage         * firstpage, int input_files, boolean groupe
   put_string("<body>\n");
 }
 
-void html_file_end(void)
+static void html_file_end(void)
 {
   put_string("\n</body>\n");
 }
 
-void html_dash(void)
+static void html_dash(void)
 {
   put_string("-");
 }
 
-void html_section(const char         * name)
+static void html_section(const char         * name)
 {
   put_string("<h1>");
   html_text(name);
   put_string("</h1>\n");
 }
 
-void html_sub_section(const char * name)
+static void html_sub_section(const char * name)
 {
   put_string("<h2>");
   html_text(name);
   put_string("</h2>");
 }
 
-void html_break_line(void)
+static void html_break_line(void)
 {
   if (!html_in_code)
   {
@@ -94,7 +94,7 @@ void html_break_line(void)
   }
 }
 
-void html_blank_line(void)
+static void html_blank_line(void)
 {
   if (!html_in_code)
   {
@@ -106,51 +106,51 @@ void html_blank_line(void)
   }
 }
 
-void html_code_start(void)
+static void html_code_start(void)
 {
   put_string("<pre>");
   html_in_code = 1;
 }
 
-void html_code_end(void)
+static void html_code_end(void)
 {
   put_string("</pre>\n");
   html_in_code = 0;
 }
 
-void html_code(const char * text)
+static void html_code(const char * text)
 {
   html_code_start();
   html_text(text);
   html_code_end();
 }
 
-void html_tag_list_start(void)
+static void html_tag_list_start(void)
 {
   put_string("<dl>");
 }
 
-void html_tag_list_end(void)
+static void html_tag_list_end(void)
 {
   put_string("</dl>\n");
 }
 
-void html_tag_entry_start(void)
+static void html_tag_entry_start(void)
 {   
   put_string("<dt>\n");
 }   
     
-void html_tag_entry_start_extra(void)
+static void html_tag_entry_start_extra(void)
 {   
   put_string("<dt>\n");
 }   
     
-void html_tag_entry_end(void)
+static void html_tag_entry_end(void)
 {
   put_string("<dd>\n");
 }
 
-void html_tag_entry_end_extra(const char * text)
+static void html_tag_entry_end_extra(const char * text)
 {
   put_string(" <em>");
   put_string(text);
@@ -158,12 +158,12 @@ void html_tag_entry_end_extra(const char * text)
   put_string("<dd>\n");
 }
 
-void html_table_start(const char * longestag)
+static void html_table_start(const char * longestag)
 {
   put_string("<ul>");
 }
 
-void html_table_entry(const char         * name, const char         * description)
+static void html_table_entry(const char         * name, const char         * description)
 {
   put_string("<li>");
   html_text(name);
@@ -175,45 +175,45 @@ void html_table_entry(const char         * name, const char         * descriptio
   put_string("<p>\n");
 }
 
-void html_table_end(void)
+static void html_table_end(void)
 {
   put_string("</ul>");
 }
 
-void html_indent(void)
+static void html_indent(void)
 {
   put_string("\t");
 }
 
-void html_list_start(void)
+static void html_list_start(void)
 {
   put_string("<ul>");
 }
 
 
-void html_list_end(void)
+static void html_list_end(void)
 {
   put_string("</ul>");
 }
 
-void html_list_entry(const char * name)
+static void html_list_entry(const char * name)
 {
   put_string("<li>");
   put_string(name);
   put_string("\n");
 }
 
-void html_list_separator(void)
+static void html_list_separator(void)
 {
   put_string(",\n");
 }
 
-void html_include(const char * filename)
+static void html_include(const char * filename)
 {
   printf(".so %s\n", filename);
 }
 
-void html_name(const char * name)
+static void html_name(const char * name)
 {
   if (name)
     html_text(name);
@@ -221,14 +221,14 @@ void html_name(const char * name)
     html_section("NAME");
 }
 
-void html_terse_sep(void)
+static void html_terse_sep(void)
 {
   html_char(' ');
   html_dash();
   html_char(' ');
 }
 
-void html_reference(const char * name)
+static void html_reference(const char * name)
 {
   put_string("<a href=");
   put_string(name);
@@ -237,7 +237,7 @@ void html_reference(const char * name)
   put_string("</a>\n");
 }  
 
-void html_emphasized(const char * text)
+static void html_emphasized(const char * text)
 {
   put_string("<em>");
   put_string(text);
@@ -245,7 +245,7 @@ void html_emphasized(const char * text)
 }
 
 /* ideally, this should be made aware of embedded html commands */
-void html_description(const char * text)
+static void html_description(const char * text)
 {
     enum { TEXT, PERIOD, CAPITALISE } state = CAPITALISE;
     boolean new_line = TRUE;
@@ -283,7 +283,7 @@ void html_description(const char * text)
 }
 
 /* ideally, this should be made aware of embedded html commands */
-void html_returns(const char * comment)
+static void html_returns(const char * comment)
 {
     enum { TEXT, PERIOD, CAPITALISE } state = CAPITALISE;
     char lastchar = '\n';

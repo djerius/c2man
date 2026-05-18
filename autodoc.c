@@ -43,7 +43,7 @@ static int fileend     = FALSE;
 static int acttable    = -1;
 static int tablemaxtag[MAX_TAG];
 
-void autodoc_format(const char * text)
+static void autodoc_format(const char * text)
 {
     if(see_also)
     {
@@ -64,7 +64,7 @@ void autodoc_format(const char * text)
     }
 }
 
-void autodoc_text(const char * text)
+static void autodoc_text(const char * text)
 {
     int br = 1;
     autodoc_format(text);
@@ -83,7 +83,7 @@ void autodoc_text(const char * text)
     }
 }
 
-void autodoc_char(const int c)
+static void autodoc_char(const int c)
 {
     if(c != '\f')
     {
@@ -114,9 +114,9 @@ void autodoc_char(const int c)
    }
 }
 
-void autodoc_comment(void) { }
+static void autodoc_comment(void) { }
 
-void autodoc_header(ManualPage * firstpage, int input_files, boolean grouped, const char * name, const char * terse, const char * section)
+static void autodoc_header(ManualPage * firstpage, int input_files, boolean grouped, const char * name, const char * terse, const char * section)
 {
     const char *basename = strrchr(firstpage->sourcefile, '/');
     int len;
@@ -180,9 +180,9 @@ void autodoc_header(ManualPage * firstpage, int input_files, boolean grouped, co
     put_string("\n");
 }
 
-void autodoc_dash(void)       { put_string("-"); }
+static void autodoc_dash(void)       { put_string("-"); }
 
-void autodoc_section(const char * name)
+static void autodoc_section(const char * name)
 {
     D((fprintf(stderr,"section : %s\n",name)));
     newline = FALSE;
@@ -204,31 +204,31 @@ void autodoc_section(const char * name)
     autodoc_char('\n');
 }
 
-void autodoc_sub_section(const char * name)
+static void autodoc_sub_section(const char * name)
 {
     autodoc_text(name);
     indent = 12;
 }
 
-void autodoc_break_line(void)
+static void autodoc_break_line(void)
 {
    breakline = TRUE;
 }
 
-void autodoc_blank_line(void)
+static void autodoc_blank_line(void)
 {
     autodoc_char('\n');
 }
 
-void autodoc_code_start(void) {  }
-void autodoc_code_end(void)   {  }
+static void autodoc_code_start(void) {  }
+static void autodoc_code_end(void)   {  }
 
-void autodoc_code(const char * text)
+static void autodoc_code(const char * text)
 {
     autodoc_text(text);
 }
 
-void autodoc_tag_entry_start(void)
+static void autodoc_tag_entry_start(void)
 {
     if(list_indent > 0)
     {
@@ -236,7 +236,7 @@ void autodoc_tag_entry_start(void)
         list_indent -= indentlength;
     }
 }
-void autodoc_tag_entry_start_extra(void)
+static void autodoc_tag_entry_start_extra(void)
 {
     if(list_indent > 0)
     {
@@ -244,12 +244,12 @@ void autodoc_tag_entry_start_extra(void)
         list_indent -= indentlength;
     }
 }
-void autodoc_tag_entry_end(void)
+static void autodoc_tag_entry_end(void)
 {
    list_indent += indentlength;
    autodoc_char('\n');
 }
-void autodoc_tag_entry_end_extra(const char * text)
+static void autodoc_tag_entry_end_extra(const char * text)
 {
     put_string("\" \"\t(");
     autodoc_text(text);
@@ -257,7 +257,7 @@ void autodoc_tag_entry_end_extra(const char * text)
     list_indent += indentlength;
 }
         
-void autodoc_table_start(const char * longestag)
+static void autodoc_table_start(const char * longestag)
 {
    if(acttable < MAX_TAG - 1)
    {
@@ -269,7 +269,7 @@ void autodoc_table_start(const char * longestag)
    newline = TRUE;
 }
 
-void autodoc_table_entry(const char * name, const char * description)
+static void autodoc_table_entry(const char * name, const char * description)
 {
     int i = tablemaxtag[acttable] - strlen(name) + 1;
 
@@ -288,7 +288,7 @@ void autodoc_table_entry(const char * name, const char * description)
         autodoc_char('\n');
 }
 
-void autodoc_table_end(void)
+static void autodoc_table_end(void)
 {
     if(acttable > -1)
       acttable--;
@@ -299,40 +299,40 @@ void autodoc_table_end(void)
        list_indent -= indentlength;
 }
 
-void autodoc_indent(void)
+static void autodoc_indent(void)
 {
     int i;
     for(i = indent + list_indent; i ; i--)
        autodoc_char(' ');
 }
 
-void autodoc_list_start(void)
+static void autodoc_list_start(void)
 {
    indent += indentlength;
    newline = TRUE;
 }
 
-void autodoc_list_entry(const char * name)
+static void autodoc_list_entry(const char * name)
 {
     autodoc_code(name);
 }
 
-void autodoc_list_separator(void) { put_string(" ,"); }
-void autodoc_list_end(void)   { autodoc_char('\n'); autodoc_table_end(); }
+static void autodoc_list_separator(void) { put_string(" ,"); }
+static void autodoc_list_end(void)   { autodoc_char('\n'); autodoc_table_end(); }
 
-void autodoc_include(const char * filename)
+static void autodoc_include(const char * filename)
 {
 
 }
 
-void autodoc_terse_sep(void)
+static void autodoc_terse_sep(void)
 {
     autodoc_char(' ');
     autodoc_dash();
     autodoc_char(' ');
 }
 
-void autodoc_name(const char * name)
+static void autodoc_name(const char * name)
 {
    if(name)
       autodoc_text(name);
@@ -340,7 +340,7 @@ void autodoc_name(const char * name)
       autodoc_section("NAME");
 }
 
-void autodoc_file_end(void)
+static void autodoc_file_end(void)
 {
    if(!fileend)
       putchar('\f');
@@ -349,7 +349,7 @@ void autodoc_file_end(void)
 }
 
 /* ideally, this should be made aware of embedded autodoc commands */
-void autodoc_description(const char * text)
+static void autodoc_description(const char * text)
 {
     enum { TEXT, PERIOD, CAPITALISE } state = CAPITALISE;
     boolean new_line = TRUE;
@@ -383,7 +383,7 @@ void autodoc_description(const char * text)
 }
 
 /* ideally, this should be made aware of embedded autodoc commands */
-void autodoc_returns(const char * comment)
+static void autodoc_returns(const char * comment)
 {
     enum { TEXT, PERIOD, CAPITALISE } state = CAPITALISE;
     char lastchar = '\n';

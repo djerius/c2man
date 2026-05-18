@@ -67,7 +67,7 @@ void new_manual_page(char * comment, DeclSpec * decl_spec, Declarator * declarat
     lastpagenext = &newpage->next;
 }
 
-void free_manual_page(ManualPage * page)
+static void free_manual_page(ManualPage * page)
 {
     free_decl_spec(page->decl_spec);
     free(page->decl_spec);
@@ -166,7 +166,7 @@ void output_comment(const char * comment)
 }
 
 /* output the phrase "a[n] <type name>" */
-void output_conjunction(char * text)
+static void output_conjunction(char * text)
 {
     output->character('a');
     if (strchr("aAeEiIoOuU",text[0]))	output->character('n');
@@ -307,7 +307,7 @@ static boolean needs_returns_section(const ManualPage * page)
 }
 
 /* does this declarator have documented parameters? */
-boolean has_documented_parameters(const Declarator * d)
+static boolean has_documented_parameters(const Declarator * d)
 {
     if (has_parameters(d))
     {
@@ -322,7 +322,7 @@ boolean has_documented_parameters(const Declarator * d)
 
 /* Output the list of function parameter descriptions.
  */
-void output_parameter_descriptions(ParameterList *params, char *function)
+static void output_parameter_descriptions(ParameterList *params, char *function)
 {
     Parameter *p;
     boolean tag_list_started = FALSE;
@@ -361,7 +361,7 @@ void output_parameter_descriptions(ParameterList *params, char *function)
 }
 
 /* split out the 'Returns:' section of a function comment */
-boolean split_returns_comment(char * comment, char ** description, char ** returns)
+static boolean split_returns_comment(char * comment, char ** description, char ** returns)
 {
     char *retstart;
 
@@ -405,7 +405,7 @@ boolean split_returns_comment(char * comment, char ** description, char ** retur
 /* skip to past the dash on the first line, if there is one
  * The dash must be surrounded by whitespace, so hyphens are not skipped.
  */
-const char * skipdash(const char *c)
+static const char * skipdash(const char *c)
 {
     const char *d;
 
@@ -427,7 +427,7 @@ const char * skipdash(const char *c)
 /* split the function comment into manual page format.
  * returns TRUE if the DESCRIPTION field was explicit.
  */
-boolean
+static boolean
 split_function_comment(const char *comment, const char *identifier_name,
                        char **terse, char **description, char **returns,
                        Section **extra_sections)
@@ -619,7 +619,7 @@ split_function_comment(const char *comment, const char *identifier_name,
 }
 
 /* see if two parameters are declared identically */
-boolean params_identical(Parameter * first, Parameter * second)
+static boolean params_identical(Parameter * first, Parameter * second)
 {
     return
 	first->decl_spec.flags == second->decl_spec.flags &&
@@ -635,7 +635,7 @@ boolean params_identical(Parameter * first, Parameter * second)
 }
 
 /* search all the parameters in this grouped manual page for redundancies */
-boolean mark_duplicate_parameters(ManualPage * firstpage)
+static boolean mark_duplicate_parameters(ManualPage * firstpage)
 {
     Parameter *param;
     boolean any = FALSE;
@@ -722,7 +722,7 @@ void output_warning(void)
     output->text("DO NOT EDIT! CHANGES MADE TO THIS FILE WILL BE LOST!\n");
 }
 
-void output_includes(void)
+static void output_includes(void)
 {
     IncludeFile *incfile;
     
@@ -740,7 +740,7 @@ void output_includes(void)
 	}
 }
 
-int exclude_section(const char * section)
+static int exclude_section(const char * section)
 {
     ExcludeSection *exclude;
 
@@ -762,7 +762,7 @@ int exclude_section(const char * section)
      * list will be grouped together into the one output page.
      */
 
-void output_manpage(ManualPage * firstpage, ManualPage * basepage, int input_files, const char * title, const char * section)
+static void output_manpage(ManualPage * firstpage, ManualPage * basepage, int input_files, const char * title, const char * section)
 {
     ManualPage *page;
     boolean need_returns;
@@ -1068,7 +1068,7 @@ void output_manpage(ManualPage * firstpage, ManualPage * basepage, int input_fil
 
 
 /* generate output filename based on a string */
-char * page_file_name(const char *based_on,
+static char * page_file_name(const char *based_on,
                       enum Output_Object object_type,
                       const char *extension)
 {
@@ -1092,7 +1092,7 @@ char * page_file_name(const char *based_on,
 }
 
 /* determine the output page type from a declaration */
-enum Output_Object page_output_type(const DeclSpec * decl_spec, const Declarator * declarator)
+static enum Output_Object page_output_type(const DeclSpec * decl_spec, const Declarator * declarator)
 {
     boolean is_static = decl_spec->flags & DS_STATIC;
     return is_function_declarator(declarator)
@@ -1101,14 +1101,14 @@ enum Output_Object page_output_type(const DeclSpec * decl_spec, const Declarator
 }
 
 /* determine the extension/section from an output type */
-const char * page_manual_section(enum Output_Object output_type)
+static const char * page_manual_section(enum Output_Object output_type)
 {
     return	output_object[output_type].extension ?
 		output_object[output_type].extension : manual_section;
 }
 
 /* remove an existing file, if it exists & we have write permission to it */
-int remove_old_file(const char * name)
+static int remove_old_file(const char * name)
 {
 #ifdef HAVE_ACCESS
     /* check that we have write premission before blasting it */

@@ -8,7 +8,7 @@
 
 static boolean verbatim = FALSE;	/* skip quoting in verbatim section */
 
-void latex_char(const int c)
+static void latex_char(const int c)
 {
     int i;
 
@@ -41,15 +41,15 @@ void latex_char(const int c)
     }
 }
 
-void latex_text(const char * text)
+static void latex_text(const char * text)
 {
     while(*text)
 	latex_char(*text++);
 }
 
-void latex_comment(void) { put_string("% "); }
+static void latex_comment(void) { put_string("% "); }
 
-void latex_header(ManualPage * firstpage, int input_files, boolean grouped, const char * name, const char * terse, const char * section)
+static void latex_header(ManualPage * firstpage, int input_files, boolean grouped, const char * name, const char * terse, const char * section)
 {
     if (make_embeddable) return;
 
@@ -58,51 +58,51 @@ void latex_header(ManualPage * firstpage, int input_files, boolean grouped, cons
 	put_string("\\begin{document}\n");
 }
 
-void latex_dash(void)	{ put_string("---"); }
+static void latex_dash(void)	{ put_string("---"); }
 
-void latex_section(const char * name)
+static void latex_section(const char * name)
 {
     put_string("\\section*{");
     latex_text(name);
     put_string("}\n");
 }
 
-void latex_sub_section(const char * name)
+static void latex_sub_section(const char * name)
 {
     put_string("\\subsection*{");
     latex_text(name);
     put_string("}\n");
 }
 
-void latex_break_line(void) { /* put_string("\\newline\n"); */ }
-void latex_blank_line(void) { put_string("\n"); }
+static void latex_break_line(void) { /* put_string("\\newline\n"); */ }
+static void latex_blank_line(void) { put_string("\n"); }
 
-void latex_code_start(void) { put_string("\\begin{verbatim}\n"); verbatim = TRUE; }
-void latex_code_end(void)	{ put_string("\\end{verbatim}\n"); verbatim = FALSE; }
+static void latex_code_start(void) { put_string("\\begin{verbatim}\n"); verbatim = TRUE; }
+static void latex_code_end(void)	{ put_string("\\end{verbatim}\n"); verbatim = FALSE; }
 
-void latex_code(const char * text)
+static void latex_code(const char * text)
 {
     put_string("\\verb`");
     put_string(text);
     put_string("`");
 }
 
-void latex_tag_list_start(void)	{ put_string("\\begin{description}\n"); }
-void latex_tag_entry_start(void)	{ put_string("\\item["); }
-void latex_tag_entry_end(void)	{ put_string("]\\hfill\\newline\n"); }
-void latex_tag_entry_end_extra(const char * text)
+static void latex_tag_list_start(void)	{ put_string("\\begin{description}\n"); }
+static void latex_tag_entry_start(void)	{ put_string("\\item["); }
+static void latex_tag_entry_end(void)	{ put_string("]\\hfill\\newline\n"); }
+static void latex_tag_entry_end_extra(const char * text)
 {
     put_string("(");
     latex_text(text);
     put_string(")");
 	latex_tag_entry_end();
 }
-void latex_tag_list_end(void)	{ put_string("\\end{description}\n"); }
+static void latex_tag_list_end(void)	{ put_string("\\end{description}\n"); }
 	
-void latex_table_start(const char *longestag)
+static void latex_table_start(const char *longestag)
 { put_string("\\begin{description}\n"); }
 
-void latex_table_entry(const char *name, const char *description)
+static void latex_table_entry(const char *name, const char *description)
 {
     put_string("\\item[");
     latex_text(name);
@@ -113,38 +113,38 @@ void latex_table_entry(const char *name, const char *description)
 	latex_char('\n');
 }
 
-void latex_table_end(void)	{ put_string("\\end{description}\n"); }
+static void latex_table_end(void)	{ put_string("\\end{description}\n"); }
 
-void latex_list_entry(const char * text)
+static void latex_list_entry(const char * text)
 {
     latex_text(text);
 }
-void latex_list_separator(void) { put_string(",\n"); }
-void latex_list_end(void)	{ latex_char('\n'); }
+static void latex_list_separator(void) { put_string(",\n"); }
+static void latex_list_end(void)	{ latex_char('\n'); }
 
-void latex_include(const char * filename)
+static void latex_include(const char * filename)
 {
 	put_string("\\include{");
 	latex_text(filename);
 	put_string("}\n");
 }
 
-void latex_file_end(void) { put_string("\\end{document}\n"); }
+static void latex_file_end(void) { put_string("\\end{document}\n"); }
 
-void latex_name(const char * name)
+static void latex_name(const char * name)
 {
     if (name) latex_text(name);
     else      latex_section("NAME");
 }
 
-void latex_terse_sep(void)
+static void latex_terse_sep(void)
 {
     latex_char(' ');
     latex_dash();
     latex_char(' ');
 }
 
-void latex_reference(const char * text)
+static void latex_reference(const char * text)
 {
     latex_text(text);
     latex_char('(');
@@ -153,7 +153,7 @@ void latex_reference(const char * text)
 }
 
 /* ideally, this should be made aware of embedded latex commands */
-void latex_description(const char * text)
+static void latex_description(const char * text)
 {
     enum { TEXT, PERIOD, CAPITALISE } state = CAPITALISE;
     boolean new_line = TRUE;
@@ -187,7 +187,7 @@ void latex_description(const char * text)
 }
 
 /* ideally, this should be made aware of embedded latex commands */
-void latex_returns(const char * comment)
+static void latex_returns(const char * comment)
 {
     enum { TEXT, PERIOD, CAPITALISE } state = CAPITALISE;
     char lastchar = '\n';
