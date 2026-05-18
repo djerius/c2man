@@ -7,6 +7,8 @@
 #include "semantic.h"
 #include <ctype.h>
 
+static void nroff_list_start(void);
+
 static void nroff_text(const char * text)
 {
     put_string(text);
@@ -111,7 +113,6 @@ static void nroff_tag_entry_end_extra(const char * text)
 	
 static void nroff_table_start(const char * longestag)
 {
-    void nroff_list_start(void);
     nroff_list_start();
 
     /* We measure the length of the longest tag in the table by changing to the

@@ -12,6 +12,8 @@
 #include "strconcat.h"
 #include "output.h"
 
+void output_decl_text(char * text, boolean keep_underscores);
+
 /* Return TRUE if the given identifier is really a typedef name.
  * Search the symbol table for the identifier.
  */

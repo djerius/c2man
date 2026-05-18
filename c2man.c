@@ -165,6 +165,13 @@ static boolean cppignhdrs
 #endif
 ;
 
+boolean remove_temp_file(void);
+FILE * open_temp_file(void);
+int process_file_directly(const char * base_cpp_cmd, const char * name);
+int process_file(const char * base_cpp_cmd, const char * name);
+int process_stdin(const char * base_cpp_cmd);
+
+
 /* nifty little function for handling I/O errors */
 void my_perror(const char *action, const char *filename)
 {
