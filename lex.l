@@ -6,8 +6,6 @@
 
 #include <ctype.h>
 
-extern boolean inbasefile;  /* Steven Haehn  Mar 19, 1996 */
-
 static char *cur_file;			/* current file name (malloced) */
 int line_num = 1;		/* current line number in file */
 static int curly = 0;		/* number of curly brace nesting levels */

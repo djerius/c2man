@@ -5,7 +5,7 @@
  */
 
 /* identifiers that are not reserved words */
-%token T_IDENTIFIER T_TYPEDEF_NAME
+%token <text> T_IDENTIFIER T_TYPEDEF_NAME
 
 /* storage class */
 %token T_AUTO T_EXTERN T_REGISTER T_STATIC T_TYPEDEF
@@ -25,14 +25,14 @@
 /* These keywords included for compatibility with gcc. */
 %token T_RESTRICT
 %token T_BUILTIN_VA_LIST
-%token T_EXTENSION_TYPE                                                                                                                   
-%type <text> T_EXTENSION_TYPE                                                                                                             
+%token <text> T_EXTENSION_TYPE
+%expect 64
 
 /* paired braces and everything between them: { ... } */
 %token T_BRACES
 
 /* paired square brackets and everything between them: [ ... ] */
-%token T_BRACKETS
+%token <text> T_BRACKETS
 
 /* three periods */
 %token T_ELLIPSIS
@@ -41,10 +41,10 @@
 %token T_INITIALIZER
 
 /* string literal */
-%token T_STRING_LITERAL
+%token <text> T_STRING_LITERAL
 
 /* text inside a regular comment, and one at the end of a non-empty line */
-%token T_COMMENT T_EOLCOMMENT
+%token <text> T_COMMENT T_EOLCOMMENT
 
 %type <declaration> declaration
 %type <parameter> function_definition
@@ -64,9 +64,7 @@
 %type <text> struct_or_union
 %type <text> pointer type_qualifier_list
 %type <text> opt_comment opt_eolcomment
-%type <text> any_id T_IDENTIFIER T_TYPEDEF_NAME
-%type <text> T_BRACKETS
-%type <text> T_COMMENT T_EOLCOMMENT T_STRING_LITERAL
+%type <text> any_id
 
 %{
 #include "c2man.h"
@@ -78,7 +76,8 @@
 
 #include <stdarg.h>
 
-int yylex(void);
+#define YY_DECL int yylex(void)
+YY_DECL;
 
 #define YYMAXDEPTH 150
 
@@ -237,8 +236,6 @@ function_definition
 	}
 	  opt_declaration_list T_BRACES
 	{
-	    DeclSpec	decl_spec;
-
 	    func_params = NULL;
 	    $1->type = DECL_FUNCDEF;
 

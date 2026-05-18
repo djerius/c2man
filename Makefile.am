@@ -3,7 +3,7 @@
 ACLOCAL_AMFLAGS = -I m4 --install
 
 AM_CPPFLAGS = -I$(top_builddir) -I$(top_srcdir)
-AM_YFLAGS =
+AM_YFLAGS = -Wno-yacc
 
 bin_PROGRAMS = c2man
 c2man_SOURCES = \
@@ -34,8 +34,8 @@ EXTRA_DIST = \
 	$(eg_DATA)
 
 y.tab.c: $(srcdir)/grammar.y lex.yy.c
-	@echo "Expect 61 shift/reduce conflicts."
-	$(YACC) $(YFLAGS) $(srcdir)/grammar.y
+	@echo "Expect 64 shift/reduce conflicts."
+	$(YACC) $(AM_YFLAGS) $(YFLAGS) $(srcdir)/grammar.y
 
 lex.yy.c: $(srcdir)/lex.l
 	$(LEX) -n $(srcdir)/lex.l
