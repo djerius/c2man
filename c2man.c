@@ -108,10 +108,10 @@ struct Output_Object_Info output_object[_OBJECT_NUM] =
     {'e', "enum"},
     {'t', "typedef"},
 #endif
-    {'f', "function"},
-    {'v', "variable"},
-    {'F', "static function"},
-    {'V', "static variable"}
+    {'f', "function", NULL, NULL },
+    {'v', "variable", NULL, NULL },
+    {'F', "static function", NULL, NULL },
+    {'V', "static variable", NULL, NULL }
 };
 
 /* Include file directories */
