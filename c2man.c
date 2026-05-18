@@ -23,11 +23,6 @@
 #include <sys/stat.h>
 #include <signal.h>
 
-/* getopt declarations */
-extern int getopt(int argc, char *const argv[], const char *optstring);
-extern char *optarg;
-extern int optind;
-
 /* lex declarations */
 extern FILE *yyin;	/* lex input stream */
 
