@@ -34,6 +34,6 @@ extern void destroy_symbol_table(SymbolTable *symtab);
 extern Symbol *find_symbol(SymbolTable *symtab, char *name);
 
 /* Define new symbol */
-extern Symbol *new_symbol(SymbolTable *symtab, char *name, int flags);
+Symbol *new_symbol(SymbolTable *symtab, char *name, int flags);
 
 #endif
