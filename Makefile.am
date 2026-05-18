@@ -8,29 +8,31 @@ AM_YFLAGS = -Wno-yacc
 bin_PROGRAMS = c2man
 c2man_SOURCES = \
 	c2man.c semantic.c string.c symbol.c strconcat.c strappend.c \
-	manpage.c enum.c nroff.c texinfo.c latex.c html.c autodoc.c
-nodist_c2man_SOURCES = y.tab.c
+	manpage.c enum.c nroff.c texinfo.c latex.c html.c autodoc.c \
+	y.tab.c
+
 noinst_HEADERS = \
 	c2man.h enum.h manpage.h output.h semantic.h \
 	strappend.h strconcat.h symbol.h ctype_ex.h
+
 BUILT_SOURCES = y.tab.c lex.yy.c fixexamp.sed flatten.sed
-CLEANFILES = y.tab.c lex.yy.c y.output fixexamp.sed flatten.sed \
-	example.inc ctype_ex.inc c2man.1
+
+CLEANFILES = fixexamp.sed flatten.sed example.inc ctype_ex.inc c2man.1
 nodist_man_MANS = c2man.1
 
 egdir = $(pkgdatadir)/eg
-eg_DATA = \
-	eg/boxcomment.c eg/ccomment.h eg/commentaft.c eg/cppcomment.h \
-	eg/dash.h eg/ellipsis.c eg/grouped.c eg/multidecl.c \
-	eg/namedash.h eg/oldstyle.c eg/retdecl.c eg/returnerr.h \
-	eg/returnlist.h eg/sections.c eg/simplesect.c eg/surround.c \
+eg_DATA =								\
+	eg/boxcomment.c eg/ccomment.h eg/commentaft.c eg/cppcomment.h	\
+	eg/dash.h eg/ellipsis.c eg/grouped.c eg/multidecl.c		\
+	eg/namedash.h eg/oldstyle.c eg/retdecl.c eg/returnerr.h		\
+	eg/returnlist.h eg/sections.c eg/simplesect.c eg/surround.c	\
 	eg/underscore.h eg/variable.c
 
-EXTRA_DIST = \
-	CHANGES C++autodoc FAQ FAQ.stoney README README.stoney \
-	ChangeLog ChangeLog.stoney bootstrap catalog c2man.man \
-	ctype_ex.h example.h fixexamp.in flatten.sed.in \
-	grammar.y lex.l \
+EXTRA_DIST =							\
+	CHANGES C++autodoc FAQ FAQ.stoney README README.stoney	\
+	ChangeLog ChangeLog.stoney bootstrap catalog c2man.man	\
+	ctype_ex.h example.h fixexamp.in flatten.sed.in		\
+	grammar.y lex.l y.tab.c lex.yy.c			\
 	$(eg_DATA)
 
 y.tab.c: $(srcdir)/grammar.y lex.yy.c
