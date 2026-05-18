@@ -1,4 +1,4 @@
-AC_INIT([c2man],[2.1.3], [c2man-maintainers@example.invalid])
+AC_INIT([c2man],[2.1.4], [c2man-maintainers@example.invalid])
 
 AC_CONFIG_SRCDIR([c2man.c])
 AC_CONFIG_MACRO_DIR([m4])
