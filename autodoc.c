@@ -122,6 +122,11 @@ static void autodoc_header(ManualPage * firstpage, int input_files, boolean grou
     int len;
     int spc;
 
+    (void)input_files;
+    (void)grouped;
+    (void)terse;
+    (void)section;
+
     fileend = FALSE;
 
     if(basename && *basename == '/')
@@ -322,7 +327,7 @@ static void autodoc_list_end(void)   { autodoc_char('\n'); autodoc_table_end(); 
 
 static void autodoc_include(const char * filename)
 {
-
+    (void)filename;
 }
 
 static void autodoc_terse_sep(void)

@@ -51,6 +51,12 @@ static void latex_comment(void) { put_string("% "); }
 
 static void latex_header(ManualPage * firstpage, int input_files, boolean grouped, const char * name, const char * terse, const char * section)
 {
+    (void)firstpage;
+    (void)input_files;
+    (void)grouped;
+    (void)name;
+    (void)terse;
+    (void)section;
     if (make_embeddable) return;
 
     put_string("\\documentstyle{article}\n");
@@ -100,7 +106,10 @@ static void latex_tag_entry_end_extra(const char * text)
 static void latex_tag_list_end(void)	{ put_string("\\end{description}\n"); }
 	
 static void latex_table_start(const char *longestag)
-{ put_string("\\begin{description}\n"); }
+{
+    (void)longestag;
+    put_string("\\begin{description}\n");
+}
 
 static void latex_table_entry(const char *name, const char *description)
 {

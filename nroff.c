@@ -25,6 +25,8 @@ static void nroff_header(ManualPage * firstpage, int input_files, boolean groupe
     time_t raw_time;
     struct tm *filetime;
     
+    (void)terse;
+
     if (make_embeddable) return;
 
     output_warning();

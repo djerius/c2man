@@ -74,6 +74,11 @@ static void texinfo_comment(void) { put_string("@c "); }
 
 static void texinfo_header(ManualPage * firstpage, int input_files, boolean grouped, const char * name, const char * terse, const char * section)
 {
+    (void)firstpage;
+    (void)input_files;
+    (void)grouped;
+    (void)terse;
+    (void)section;
     if (! make_embeddable)
     {
 	put_string("\\input texinfo @c -*-texinfo-*-\n");
@@ -154,7 +159,7 @@ static void texinfo_tag_entry_end_extra(const char * text)
 static void texinfo_tag_list_end(void)	{ put_string("@end table\n@end quotation\n"); }
 	
 static void texinfo_table_start(const char *longestag)
-{ put_string("@quotation\n@table @code\n"); }
+{ (void)longestag; put_string("@quotation\n@table @code\n"); }
 
 static void texinfo_table_entry(const char *name, const char *description)
 {

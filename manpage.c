@@ -180,6 +180,8 @@ static void output_identifier_description(const char *comment,
                                           const DeclSpec *decl_spec,
                                           const Declarator *declarator)
 {
+    (void)declarator;
+
     /* one day, this may document the contents of structures too */
 
     /* output list of possible enum values, if any */

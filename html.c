@@ -50,6 +50,10 @@ static void html_comment(void)
 
 static void html_header(ManualPage         * firstpage, int input_files, boolean grouped, const char         * name, const char         * terse, const char         * section)
 {
+    (void)firstpage;
+    (void)input_files;
+    (void)grouped;
+    (void)section;
 
   output_warning();
   put_string("<header>\n");
@@ -160,6 +164,7 @@ static void html_tag_entry_end_extra(const char * text)
 
 static void html_table_start(const char * longestag)
 {
+    (void)longestag;
   put_string("<ul>");
 }
 
