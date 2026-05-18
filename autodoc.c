@@ -518,7 +518,7 @@ struct Output autodoc_output =
     autodoc_table_end,
     autodoc_indent,
     autodoc_list_start,
-    autodoc_code,         /* autodoc_list_entry */
+    autodoc_list_entry,
     autodoc_list_separator,
     autodoc_list_end,
     autodoc_include,

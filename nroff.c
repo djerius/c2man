@@ -367,7 +367,7 @@ struct Output nroff_output =
     nroff_table_end,
     nroff_indent,
     nroff_list_start,
-    nroff_code,		/* nroff_list_entry */
+    nroff_list_entry,
     nroff_list_separator,
     nroff_list_end,
     nroff_include,
